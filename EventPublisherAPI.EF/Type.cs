@@ -7,18 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EventPublisherAPI.Models
+namespace EventPublisherAPI.EF
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class PubEvent
+    public partial class Type
     {
-        public int ID { get; set; }
-        public int PID { get; set; }
-        public int EID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Type()
+        {
+            this.Events = new HashSet<Event>();
+        }
     
-        public virtual Event Event { get; set; }
-        public virtual Publisher Publisher { get; set; }
+        public int ID { get; set; }
+        public string Type1 { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Event> Events { get; set; }
     }
 }

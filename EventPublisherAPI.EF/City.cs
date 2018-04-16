@@ -7,23 +7,26 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EventPublisherAPI.Models
+namespace EventPublisherAPI.EF
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Type
+    public partial class City
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Type()
+        public City()
         {
             this.Events = new HashSet<Event>();
+            this.Publishers = new HashSet<Publisher>();
         }
     
         public int ID { get; set; }
-        public string Type1 { get; set; }
+        public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Event> Events { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Publisher> Publishers { get; set; }
     }
 }

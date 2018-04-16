@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EventPublisherAPI.Models
+namespace EventPublisherAPI.EF
 {
     using System;
     using System.Collections.Generic;
