@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EventPublisherAPI.EF
+namespace EventPublisherBLL
 {
-    public class Class1
+    class TypesBLL
     {
-    
+        //GetAllTypes
+        //Insert
+        //Delete(ID)
     }
 }
