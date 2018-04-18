@@ -7,14 +7,11 @@ using EventPublisherEF;
 
 namespace EventPublisherBLL
 {
-    class PublishersBLL
+    class PlacesBLL
     {
-        //GetAllPubishers
-        //GetPublisherByID
-        //GetPublisherByName
-        //GetPublisherByCompanyName
+        //GetAllPlaces
+        //Update
         //Insert
-        //Delete(ID)
-        //Update(ID)
+        //Delete
     }
 }

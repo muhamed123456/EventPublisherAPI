@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EventPublisherEF;
 
-namespace EventPublisherBLL
+namespace EventPublisherEF
 {
-    class TypesBLL
+    public class Class1
     {
-        //GetAllTypes
-        //Insert
-        //Delete(ID)
     }
 }
