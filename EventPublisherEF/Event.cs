@@ -17,6 +17,7 @@ namespace EventPublisherEF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Event()
         {
+            this.Attendances = new HashSet<Attendance>();
             this.PubEvents = new HashSet<PubEvent>();
         }
     
@@ -30,6 +31,8 @@ namespace EventPublisherEF
         public string Description { get; set; }
         public bool Approved { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Attendance> Attendances { get; set; }
         public virtual City City { get; set; }
         public virtual Place Place { get; set; }
         public virtual Type Type { get; set; }

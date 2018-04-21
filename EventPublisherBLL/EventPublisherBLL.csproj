@@ -56,18 +56,14 @@
     <Compile Include="TypesBLL.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EventPublisherAPI\EventPublisherAPI.csproj">
-      <Project>{401a5b90-7b3a-45d5-b13a-3de6b4427680}</Project>
-      <Name>EventPublisherAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EventPublisherEF\EventPublisherEF.csproj">
-      <Project>{d45da866-0f4d-42da-b777-2b533104d6ff}</Project>
-      <Name>EventPublisherEF</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EventPublisherEF\EventPublisherEF.csproj">
+      <Project>{bb8000dc-cd97-4332-bd32-db620df58319}</Project>
+      <Name>EventPublisherEF</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

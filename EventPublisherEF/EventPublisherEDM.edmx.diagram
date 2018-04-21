@@ -4,13 +4,15 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f21c0a57c4954e328dfc8d4d3981d7da" Name="Diagram1">
-        <EntityTypeShape EntityType="EventPublisherDBModel.City" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventPublisherDBModel.Event" Width="1.5" PointX="5.25" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventPublisherDBModel.Place" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventPublisherDBModel.PubEvent" Width="1.5" PointX="7.5" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventPublisherDBModel.Publisher" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventPublisherDBModel.Type" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+      <Diagram DiagramId="a7421bba8f564ff9a0ac5171a1c92c10" Name="Diagram1">
+        <EntityTypeShape EntityType="EventPublisherDBModel.Attendance" Width="1.5" PointX="7.5" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventPublisherDBModel.City" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventPublisherDBModel.Event" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventPublisherDBModel.Place" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventPublisherDBModel.PubEvent" Width="1.5" PointX="7.5" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventPublisherDBModel.Publisher" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventPublisherDBModel.Type" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="EventPublisherDBModel.FK_Attendance_Event" ManuallyRouted="false" />
         <AssociationConnector Association="EventPublisherDBModel.FK_Event_City" ManuallyRouted="false" />
         <AssociationConnector Association="EventPublisherDBModel.FK_Place_City" ManuallyRouted="false" />
         <AssociationConnector Association="EventPublisherDBModel.FK_Publisher_City" ManuallyRouted="false" />

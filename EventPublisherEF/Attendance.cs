@@ -7,23 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EventPublisherAPI.EF
+namespace EventPublisherEF
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Type
+    public partial class Attendance
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Type()
-        {
-            this.Events = new HashSet<Event>();
-        }
-    
         public int ID { get; set; }
-        public string Type1 { get; set; }
+        public int ID_Event { get; set; }
+        public int Attendance1 { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Event> Events { get; set; }
+        public virtual Event Event { get; set; }
     }
 }

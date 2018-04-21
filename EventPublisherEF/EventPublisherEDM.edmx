@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="EventPublisherDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Event" Type="int" Nullable="false" />
+          <Property Name="Attendance" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="ID" />
@@ -61,6 +69,18 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Type" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Attendance_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="ID_Event" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Event_City">
           <End Role="City" Type="Self.City" Multiplicity="1" />
           <End Role="Event" Type="Self.Event" Multiplicity="*" />
@@ -146,12 +166,17 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="EventPublisherDBModelStoreContainer">
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Place" EntityType="Self.Place" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PubEvent" EntityType="Self.PubEvent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Publisher" EntityType="Self.Publisher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Type" EntityType="Self.Type" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Attendance_Event" Association="Self.FK_Attendance_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
           <AssociationSet Name="FK_Event_City" Association="Self.FK_Event_City">
             <End Role="City" EntitySet="City" />
             <End Role="Event" EntitySet="Event" />
@@ -186,6 +211,15 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="EventPublisherDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Event" Type="Int32" Nullable="false" />
+          <Property Name="Attendance1" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_Attendance_Event" FromRole="Attendance" ToRole="Event" />
+        </EntityType>
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="ID" />
@@ -209,6 +243,7 @@
           <Property Name="EndEvent" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Attendances" Relationship="Self.FK_Attendance_Event" FromRole="Event" ToRole="Attendance" />
           <NavigationProperty Name="City" Relationship="Self.FK_Event_City" FromRole="Event" ToRole="City" />
           <NavigationProperty Name="Place" Relationship="Self.FK_Event_Place" FromRole="Event" ToRole="Place" />
           <NavigationProperty Name="Type" Relationship="Self.FK_Event_Type" FromRole="Event" ToRole="Type" />
@@ -256,6 +291,18 @@
           <Property Name="Type1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Events" Relationship="Self.FK_Event_Type" FromRole="Type" ToRole="Event" />
         </EntityType>
+        <Association Name="FK_Attendance_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="ID_Event" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Event_City">
           <End Role="City" Type="Self.City" Multiplicity="1" />
           <End Role="Event" Type="Self.Event" Multiplicity="*" />
@@ -341,12 +388,17 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="EventPublisherDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attendances" EntityType="Self.Attendance" />
           <EntitySet Name="Cities" EntityType="Self.City" />
           <EntitySet Name="Events" EntityType="Self.Event" />
           <EntitySet Name="Places" EntityType="Self.Place" />
           <EntitySet Name="PubEvents" EntityType="Self.PubEvent" />
           <EntitySet Name="Publishers" EntityType="Self.Publisher" />
           <EntitySet Name="Types" EntityType="Self.Type" />
+          <AssociationSet Name="FK_Attendance_Event" Association="Self.FK_Attendance_Event">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="Attendance" EntitySet="Attendances" />
+          </AssociationSet>
           <AssociationSet Name="FK_Event_City" Association="Self.FK_Event_City">
             <End Role="City" EntitySet="Cities" />
             <End Role="Event" EntitySet="Events" />
@@ -382,6 +434,15 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="EventPublisherDBModelStoreContainer" CdmEntityContainer="EventPublisherDBEntities">
+          <EntitySetMapping Name="Attendances">
+            <EntityTypeMapping TypeName="EventPublisherDBModel.Attendance">
+              <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Event" ColumnName="ID_Event" />
+                <ScalarProperty Name="Attendance1" ColumnName="Attendance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Cities">
             <EntityTypeMapping TypeName="EventPublisherDBModel.City">
               <MappingFragment StoreEntitySet="City">

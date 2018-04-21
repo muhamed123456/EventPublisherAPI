@@ -25,6 +25,7 @@ namespace EventPublisherEF
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<Place> Places { get; set; }
