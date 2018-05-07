@@ -31,6 +31,7 @@ namespace EventPublisherEF
         public virtual DbSet<Place> Places { get; set; }
         public virtual DbSet<PubEvent> PubEvents { get; set; }
         public virtual DbSet<Publisher> Publishers { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Type> Types { get; set; }
     }
 }

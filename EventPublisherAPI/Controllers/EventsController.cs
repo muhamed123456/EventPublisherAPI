@@ -4,10 +4,73 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using EventPublisherBLL;
 
 namespace EventPublisherAPI.Controllers
-{
+{ 
+    [RoutePrefix("api/v1/events")]
     public class EventsController : ApiController
     {
+    private readonly EventsBLL _evService = new EventsBLL(
+        new EventPublisherEF.DataRepository.EventRepository(new EventPublisherEF.DataAccess.DbAccess()));
+
+    public EventsController()
+    {
+
+    }
+
+    [HttpGet]
+    [Route("event")]
+
+    public IHttpActionResult GetEventInfo()
+    {
+        try
+        {
+            var result = _evService.GetEvents();
+                return Ok(result);
+        }
+        catch(Exception e)
+        {
+                return new System.Web.Http.Results.ResponseMessageResult(
+                            Request.CreateErrorResponse((HttpStatusCode)500,
+                                new HttpError(e.Message)));
+            }
+    }
+
+        [HttpGet]
+        [Route("event/{id:int}")]
+        public IHttpActionResult GetEventInfoById(int id)
+        {
+            try
+            {
+                var result = _evService.GetEventsById(id);
+                return Ok(result);
+            }
+            catch(Exception e)
+            {
+                return new System.Web.Http.Results.ResponseMessageResult(
+                            Request.CreateErrorResponse((HttpStatusCode)500,
+                                new HttpError(e.Message)));
+            }
+        }
+
+        [HttpGet]
+        [Route("event/{name}")]
+        public IHttpActionResult GetEventInfoByName(string name)
+        {
+            try
+            {
+                var result = _evService.GetEventsByName(name);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return new System.Web.Http.Results.ResponseMessageResult(
+                            Request.CreateErrorResponse((HttpStatusCode)500,
+                                new HttpError(e.Message)));
+            }
+        }
+
+
     }
 }

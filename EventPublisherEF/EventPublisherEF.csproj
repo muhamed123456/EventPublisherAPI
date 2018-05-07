@@ -31,10 +31,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -56,6 +56,14 @@
       <DependentUpon>EventPublisherEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Class1.cs" />
+    <Compile Include="Contracts\AllEvents.cs" />
+    <Compile Include="Contracts\CitiesInfo.cs" />
+    <Compile Include="Contracts\PlacesInfo.cs" />
+    <Compile Include="Contracts\SearchedEvents.cs" />
+    <Compile Include="DataAccess\DbAccess.cs" />
+    <Compile Include="DataAccess\IDbAccess.cs" />
+    <Compile Include="DataRepository\EventRepository.cs" />
+    <Compile Include="DataRepository\IEventRepository.cs" />
     <Compile Include="Event.cs">
       <DependentUpon>EventPublisherEDM.tt</DependentUpon>
     </Compile>
@@ -84,37 +92,38 @@
     <Compile Include="Publisher.cs">
       <DependentUpon>EventPublisherEDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>EventPublisherEDM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Type.cs">
       <DependentUpon>EventPublisherEDM.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <EntityDeploy Include="EventPublisherEDM.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>EventPublisherEDM.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
     <None Include="EventPublisherEDM.edmx.diagram">
       <DependentUpon>EventPublisherEDM.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="EventPublisherEDM.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>EventPublisherEDM.Context.cs</LastGenOutput>
       <DependentUpon>EventPublisherEDM.edmx</DependentUpon>
+      <LastGenOutput>EventPublisherEDM.Context.cs</LastGenOutput>
     </Content>
     <Content Include="EventPublisherEDM.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EventPublisherEDM.edmx</DependentUpon>
       <LastGenOutput>EventPublisherEDM.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
