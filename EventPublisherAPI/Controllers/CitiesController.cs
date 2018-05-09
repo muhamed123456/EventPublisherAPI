@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using EventPublisherBLL;
 using EventPublisherEF.Contracts;
+using EventPublisherEF;
 
 namespace EventPublisherAPI.Controllers
 {
@@ -56,7 +57,7 @@ namespace EventPublisherAPI.Controllers
 
         [HttpPost]
         [Route("city/post")]
-        public IHttpActionResult PostNewCity([FromBody]CitiesInfo Name)
+        public IHttpActionResult PostNewCity(City Name)
         {
             try
             {
@@ -88,6 +89,23 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+
+        [HttpGet]
+        [Route("city/test")]
+        public IHttpActionResult GetCity()
+        {
+            try
+            {
+                var result = _evService.GetCity();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return new System.Web.Http.Results.ResponseMessageResult(
+                            Request.CreateErrorResponse((HttpStatusCode)500,
+                                new HttpError(e.Message)));
+            }
+        }
 
     }
 }

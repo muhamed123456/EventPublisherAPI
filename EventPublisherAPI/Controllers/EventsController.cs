@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using EventPublisherBLL;
+using EventPublisherEF.Contracts;
+using EventPublisherEF;
 
 namespace EventPublisherAPI.Controllers
 { 
@@ -70,6 +72,42 @@ namespace EventPublisherAPI.Controllers
                                 new HttpError(e.Message)));
             }
         }
+
+        [HttpPut]
+        [Route("event/put/{id}")]
+        public IHttpActionResult EditEvent(int id, [FromBody]SearchedEvents event1)
+        {
+            try
+            {
+                _evService.UpdateEvent(id, event1);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return new System.Web.Http.Results.ResponseMessageResult(
+                            Request.CreateErrorResponse((HttpStatusCode)500,
+                                new HttpError(e.Message)));
+            }
+        }
+
+        [HttpDelete]
+        [Route("event/delete/{id}")]
+        public IHttpActionResult DeleteEvent(int id)
+        {
+            try
+            {
+                _evService.DeleteEvent(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return new System.Web.Http.Results.ResponseMessageResult(
+                            Request.CreateErrorResponse((HttpStatusCode)500,
+                                new HttpError(e.Message)));
+            }
+        }
+
+
 
 
     }
