@@ -34,7 +34,7 @@ namespace EventPublisherBLL
 
         
         //Insert
-        public void AddCity(CitiesInfo city1)
+        public void AddCity(City city1)
         {
             _ev.AddCity(city1);
         }
@@ -44,6 +44,12 @@ namespace EventPublisherBLL
         public void DeleteCity(int id)
         {
             _ev.DeleteCity(id);
+        }
+
+
+        public List<City> GetCity()
+        {
+            return _ev.GetCityTest();
         }
     }
 }

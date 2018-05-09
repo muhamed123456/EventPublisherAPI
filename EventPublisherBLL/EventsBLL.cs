@@ -41,7 +41,7 @@ namespace EventPublisherBLL
         }
 
         //update event info
-        public void UpdateEvent(int id, Event event1)
+        public void UpdateEvent(int id, SearchedEvents event1)
         {
             _ev.UpdateEvent(id, event1);
         }
