@@ -137,14 +137,16 @@ namespace EventPublisherEF.DataRepository
             }
         }
 
-        public void AddCity(City city)
+        public void AddCity(int id, string Name)
         {
-     
-            _dbContext.Cities.Add(city);
+            City city1 = new City();
+            city1.ID = id;
+            city1.Name = Name;
+            _dbContext.Cities.Add(city1);
             _dbContext.SaveChanges();
         }
 
-        public void DeleteCity(int id)
+            public void DeleteCity(int id)
         {
             var city = _dbContext.Cities.Where(c => c.ID == id).First();
             _dbContext.Cities.Remove(city);
