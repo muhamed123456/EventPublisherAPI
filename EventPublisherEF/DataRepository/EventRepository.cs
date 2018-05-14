@@ -289,8 +289,7 @@ namespace EventPublisherEF.DataRepository
 
         public void DeletePublisher(int id)
         {
-            var pubDelete = _dbContext.Publishers.Where(p => p.ID == id).First();
-            _dbContext.Publishers.Remove(pubDelete);
+            _dbContext.Publishers.Remove(_dbContext.Publishers.First(p => p.ID == id));
             _dbContext.SaveChanges();
         }
 
