@@ -8,23 +8,25 @@ using EventPublisherBLL;
 
 namespace EventPublisherAPI.Controllers
 {
-    [RoutePrefix("api/v1/places")]
-    public class PlacesController : ApiController
+    [RoutePrefix("api/v1/types")]
+    public class TypesController : ApiController
     {
-        private readonly PlacesBLL _evService = new PlacesBLL(new EventPublisherEF.DataRepository.EventRepository(new EventPublisherEF.DataAccess.DbAccess()));
+        private readonly TypesBLL _evService = new TypesBLL(
+            new EventPublisherEF.DataRepository.EventRepository(new EventPublisherEF.DataAccess.DbAccess()));
 
-        public PlacesController()
+        public TypesController()
         {
 
         }
 
         [HttpGet]
-        [Route("place")]
-        public IHttpActionResult GetPlaceInfo()
+        [Route("type")]
+
+        public IHttpActionResult GetTypeInfo()
         {
             try
             {
-                var result = _evService.GetAllPlaces();
+                var result = _evService.GetTypeInfo();
                 return Ok(result);
             }
             catch (Exception e)
@@ -36,12 +38,13 @@ namespace EventPublisherAPI.Controllers
         }
 
         [HttpGet]
-        [Route("place/{id}")]
-        public IHttpActionResult GetPlacesByID(int id)
+        [Route("type/{id=int}")]
+
+        public IHttpActionResult GetTypeInfoById(int id)
         {
             try
             {
-                var result = _evService.GetPlaceByID(id);
+                var result = _evService.GetTypeInfoById(id);
                 return Ok(result);
             }
             catch (Exception e)
@@ -51,14 +54,15 @@ namespace EventPublisherAPI.Controllers
                                 new HttpError(e.Message)));
             }
         }
+
 
         [HttpPost]
-        [Route("place/post")]
-        public IHttpActionResult PostNewPlace(int id, string placeName, int idCity)
+        [Route("type/post")]
+        public IHttpActionResult PostNewType(int id, string type)
         {
             try
             {
-                _evService.AddPlace(id, placeName, idCity);
+                _evService.AddType(id, type);
                 return Ok();
             }
             catch (Exception e)

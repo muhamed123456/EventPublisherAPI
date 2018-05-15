@@ -57,18 +57,18 @@ namespace EventPublisherAPI.Controllers
 
         [HttpPost]
         [Route("city/post")]
-        public IHttpActionResult PostNewCity(City Name)
+        public IHttpActionResult PostNewCity(int id, string Name)
         {
             try
             {
-                _evService.AddCity(Name);
+                _evService.AddCity(id, Name);
                 return Ok();
             }
             catch (Exception e)
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
@@ -90,22 +90,7 @@ namespace EventPublisherAPI.Controllers
         }
 
 
-        [HttpGet]
-        [Route("city/test")]
-        public IHttpActionResult GetCity()
-        {
-            try
-            {
-                var result = _evService.GetCity();
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return new System.Web.Http.Results.ResponseMessageResult(
-                            Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
-            }
-        }
+        
 
     }
 }

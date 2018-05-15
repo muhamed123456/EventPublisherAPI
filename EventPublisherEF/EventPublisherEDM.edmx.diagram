@@ -4,14 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="61be4d71b9c644cba2bc84aa57a3d1ae" Name="Diagram1">
+      <Diagram DiagramId="9422769446ae4ec6a14fbded3ddbc7c0" Name="Diagram1">
         <EntityTypeShape EntityType="EventPublisherDBModel.Attendance" Width="1.5" PointX="7.5" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="EventPublisherDBModel.City" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="EventPublisherDBModel.Event" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
         <EntityTypeShape EntityType="EventPublisherDBModel.Place" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
         <EntityTypeShape EntityType="EventPublisherDBModel.PubEvent" Width="1.5" PointX="7.5" PointY="10.125" IsExpanded="true" />
         <EntityTypeShape EntityType="EventPublisherDBModel.Publisher" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventPublisherDBModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="EventPublisherDBModel.Type" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
         <AssociationConnector Association="EventPublisherDBModel.FK_Attendance_Event" ManuallyRouted="false" />
         <AssociationConnector Association="EventPublisherDBModel.FK_Event_City" ManuallyRouted="false" />

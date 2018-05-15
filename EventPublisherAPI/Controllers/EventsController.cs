@@ -107,6 +107,22 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("event/post")]
+        public IHttpActionResult PostNewEvent(int id, string name, string description, string cityName, string placeName, string typeName, System.DateTime startDate, System.DateTime endDate, bool approved)
+        {
+            try
+            {
+                _evService.CreateEvent(id, name, description, cityName, placeName, typeName, startDate, endDate, approved);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return new System.Web.Http.Results.ResponseMessageResult(
+                            Request.CreateErrorResponse((HttpStatusCode)500,
+                                new HttpError(e.InnerException.InnerException.Message)));
+            }
+        }
 
 
 

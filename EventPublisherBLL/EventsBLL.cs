@@ -36,8 +36,9 @@ namespace EventPublisherBLL
         }
 
         //create new event
-        public void CreateEvent(Event event1){
-            _ev.CreateEvent(event1);
+        public void CreateEvent(int id, string name, string description, string cityName, string placeName, string typeName, System.DateTime startDate, System.DateTime endDate, bool approved)
+        {
+            _ev.CreateEvent( id,  name,  description,  cityName,  placeName,  typeName,  startDate,  endDate,  approved);
         }
 
         //update event info

@@ -29,9 +29,9 @@ namespace EventPublisherBLL
             return _ev.GetPlaceInfoById(id);
         }
         //Insert
-        public void AddPlace(Place place1)
+        public void AddPlace(int id, string placeName, int idCity)
         {
-            _ev.AddPlace(place1);
+            _ev.AddPlace(id, placeName, idCity);
         }
 
 
