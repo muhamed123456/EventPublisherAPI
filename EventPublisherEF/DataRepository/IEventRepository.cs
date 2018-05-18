@@ -24,7 +24,7 @@ namespace EventPublisherEF.DataRepository
 
         List<PlacesInfo> GetPlaceInfo();
         List<PlacesInfo> GetPlaceInfoById(int id);
-        void AddPlace(int id, string placeName, int idCity);
+        void AddPlace(string placeName, int idCity);
         void DeletePlace(int id);
 
         List<AllPublishers> GetPublisherInfo();

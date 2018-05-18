@@ -32,11 +32,11 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
         [HttpGet]
-        [Route("publisher/{id=int}")]
+        [Route("publisher/id/{id=int}")]
         public IHttpActionResult GetPublisherInfoByID(int id)
         {
             try
@@ -48,12 +48,12 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
         [HttpGet]
-        [Route("publisher/{name}")]
+        [Route("publisher/name/{name}")]
         public IHttpActionResult GetPublisherInfoByName(string name)
         {
             try
@@ -65,11 +65,11 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
         [HttpGet]
-        [Route("publisher/{companyName}")]
+        [Route("publisher/companyname/{companyName}")]
         public IHttpActionResult GetPublisherInfoByCompanyName(string companyName)
         {
             try
@@ -81,7 +81,7 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 

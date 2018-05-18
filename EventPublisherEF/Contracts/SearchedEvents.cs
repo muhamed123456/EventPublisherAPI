@@ -8,6 +8,7 @@ namespace EventPublisherEF.Contracts
 {
     public class SearchedEvents
     {
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string City { get; set; }
@@ -15,6 +16,6 @@ namespace EventPublisherEF.Contracts
         public string Type { get; set; }
         public System.DateTime StartEvent { get; set; }
         public System.DateTime EndEvent { get; set; }
-        public int Attendance { get; set; }
+        
     }
 }

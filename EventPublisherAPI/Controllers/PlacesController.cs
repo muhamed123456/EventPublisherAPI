@@ -31,7 +31,7 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
@@ -48,17 +48,17 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
         [HttpPost]
         [Route("place/post")]
-        public IHttpActionResult PostNewPlace(int id, string placeName, int idCity)
+        public IHttpActionResult PostNewPlace(string placeName, int idCity)
         {
             try
             {
-                _evService.AddPlace(id, placeName, idCity);
+                _evService.AddPlace(placeName, idCity);
                 return Ok();
             }
             catch (Exception e)
