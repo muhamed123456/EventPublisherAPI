@@ -55,7 +55,6 @@
     <Compile Include="City.cs">
       <DependentUpon>EventPublisherEDM.tt</DependentUpon>
     </Compile>
-    <Compile Include="Class1.cs" />
     <Compile Include="Contracts\AllEvents.cs" />
     <Compile Include="Contracts\AllPublishers.cs" />
     <Compile Include="Contracts\AttendancesInfo.cs" />

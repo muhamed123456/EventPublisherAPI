@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="AttendancesBLL.cs" />
     <Compile Include="CitiesBLL.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="EventsBLL.cs" />
     <Compile Include="PlacesBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

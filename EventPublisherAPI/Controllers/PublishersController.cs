@@ -8,7 +8,7 @@ using EventPublisherBLL;
 
 namespace EventPublisherAPI.Controllers
 {
-    [RoutePrefix("api/v1/publishers")]
+    [RoutePrefix("api/v1/publisher")]
     public class PublishersController : ApiController
     {
         private readonly PublishersBLL _evService = new PublishersBLL(
@@ -19,7 +19,7 @@ namespace EventPublisherAPI.Controllers
 
         }
         [HttpGet]
-        [Route("publisher")]
+        [Route("get")]
 
         public IHttpActionResult GetPublishersInfo()
         {
@@ -32,11 +32,11 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
         [HttpGet]
-        [Route("publisher/{id=int}")]
+        [Route("get/{id:int}")]
         public IHttpActionResult GetPublisherInfoByID(int id)
         {
             try
@@ -48,12 +48,12 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
         [HttpGet]
-        [Route("publisher/{name}")]
+        [Route("get/name/{name:string}")]
         public IHttpActionResult GetPublisherInfoByName(string name)
         {
             try
@@ -65,11 +65,11 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
         [HttpGet]
-        [Route("publisher/{companyName}")]
+        [Route("get/companyname/{companyName:string}")]
         public IHttpActionResult GetPublisherInfoByCompanyName(string companyName)
         {
             try
@@ -81,17 +81,34 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
         [HttpPost]
-        [Route("publisher/post")]
-        public IHttpActionResult PostNewPublisher(int id, string name, string companyName, string email, int idCity, string phoneNumber, string idUser)
+        [Route("post")]
+        public IHttpActionResult PostNewPublisher(string name, string companyName, string email, int idCity, string phoneNumber, string idUser)
         {
             try
             {
-                _evService.CreatePublisher(id, name, companyName, email, idCity, phoneNumber, idUser);
+                _evService.CreatePublisher(name, companyName, email, idCity, phoneNumber, idUser);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return new System.Web.Http.Results.ResponseMessageResult(
+                            Request.CreateErrorResponse((HttpStatusCode)500,
+                                new HttpError(e.InnerException.InnerException.Message)));
+            }
+        }
+
+        [HttpPut]
+        [Route("update")]
+        public IHttpActionResult UpdatePublisher(int id, string name, string companyName, string email, int idCity, string phoneNumber, string idUser)
+        {
+            try
+            {
+                _evService.UpdatePublisher(id, name, companyName, email, idCity, phoneNumber, idUser);
                 return Ok();
             }
             catch (Exception e)

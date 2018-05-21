@@ -12,32 +12,32 @@ namespace EventPublisherEF.DataRepository
     {
         List<AllEvents> GetEventInfo();
         void DeleteEvent(int id);
-        void CreateEvent(int id, string name, string description, string cityName, string placeName, string typeName, System.DateTime startDate, System.DateTime endDate, bool approved);
-        void UpdateEvent(int id, SearchedEvents event1);
+        void CreateEvent(string name, string description, string cityName, string placeName, string typeName, System.DateTime startDate, System.DateTime endDate, bool approved);
+        void UpdateEvent(int id, string name, string description, string cityName, string placeName, string typeName, System.DateTime startDate, System.DateTime endDate, bool approved);
         List<SearchedEvents> GetEventInfoById(int id);
         List<SearchedEvents> GetEventInfoByName(string name);
 
         List<CitiesInfo> GetCityInfo();
         List<CitiesInfo> GetCityInfoById(int id);
-        void AddCity(int id, string Name);
+        void AddCity(string Name);
         void DeleteCity(int id);
 
         List<PlacesInfo> GetPlaceInfo();
         List<PlacesInfo> GetPlaceInfoById(int id);
-        void AddPlace(int id, string placeName, int idCity);
+        void AddPlace(string placeName, int idCity);
         void DeletePlace(int id);
 
         List<AllPublishers> GetPublisherInfo();
         void DeletePublisher(int id);
-        void CreatePublisher(int id, string name, string companyName, string email, int idCity, string phoneNumber, string idUser);
-        void UpdateEvent(int id, Publisher pub);
+        void CreatePublisher(string name, string companyName, string email, int idCity, string phoneNumber, string idUser);
+        void UpdatePublisher(int id, string name, string companyName, string email, int idCity, string phoneNumber, string idUser);
         List<GetPublishersByNames> GetPublisherInfoByID(int Id);
         List<GetPublishersByNames> GetPublisherInfoByName(string name);
         List<GetPublishersByNames> GetPublisherInfoByCompanyName(string companyName);
 
         List<TypesInfo> GetTypeInfo();
         List<TypesInfo> GetTypeInfoById(int id);
-        void AddType(int id, string type);
+        void AddType(string type);
         void DeleteType(int id);
 
         List<AttendancesInfo> GetAttendanceInfo();

@@ -8,7 +8,7 @@ using EventPublisherBLL;
 
 namespace EventPublisherAPI.Controllers
 {
-    [RoutePrefix("api/v1/types")]
+    [RoutePrefix("api/v1/type")]
     public class TypesController : ApiController
     {
         private readonly TypesBLL _evService = new TypesBLL(
@@ -20,7 +20,7 @@ namespace EventPublisherAPI.Controllers
         }
 
         [HttpGet]
-        [Route("type")]
+        [Route("get")]
 
         public IHttpActionResult GetTypeInfo()
         {
@@ -33,12 +33,12 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
         [HttpGet]
-        [Route("type/{id=int}")]
+        [Route("get/{id:int}")]
 
         public IHttpActionResult GetTypeInfoById(int id)
         {
@@ -51,18 +51,18 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
 
         [HttpPost]
-        [Route("type/post")]
-        public IHttpActionResult PostNewType(int id, string type)
+        [Route("post")]
+        public IHttpActionResult PostNewType(string type)
         {
             try
             {
-                _evService.AddType(id, type);
+                _evService.AddType(type);
                 return Ok();
             }
             catch (Exception e)

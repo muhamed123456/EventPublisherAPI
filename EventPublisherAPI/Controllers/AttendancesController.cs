@@ -8,7 +8,7 @@ using EventPublisherBLL;
 
 namespace EventPublisherAPI.Controllers
 {
-    [RoutePrefix("api/v1/attendances")]
+    [RoutePrefix("api/v1/attendance")]
     public class AttendancesController : ApiController
     {
         private readonly AttendancesBLL _evService = new AttendancesBLL(
@@ -21,7 +21,7 @@ namespace EventPublisherAPI.Controllers
         }
 
         [HttpGet]
-        [Route("attendance")]
+        [Route("get")]
 
         public IHttpActionResult GetAttendanceInfo()
         {
@@ -34,12 +34,12 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
         [HttpGet]
-        [Route("type/{id=int}")]
+        [Route("get/{id=int}")]
 
         public IHttpActionResult GetAttendanceInfoById(int id)
         {
@@ -52,7 +52,7 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
     }

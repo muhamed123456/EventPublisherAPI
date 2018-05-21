@@ -28,9 +28,9 @@ namespace EventPublisherBLL
             return _ev.GetTypeInfoById(id);
         }
         //Insert
-        public void AddType(int id, string type)
+        public void AddType(string type)
         {
-            _ev.AddType(id, type);
+            _ev.AddType(type);
         }
         //Delete(ID)
         public void DeleteType(int id)

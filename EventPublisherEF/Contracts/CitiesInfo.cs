@@ -8,6 +8,7 @@ namespace EventPublisherEF.Contracts
 {
     public class CitiesInfo
     { 
+        public int ID { get; set; }
         public string Name { get; set; }
     }
 }
