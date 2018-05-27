@@ -10,7 +10,7 @@ using EventPublisherEF;
 
 namespace EventPublisherAPI.Controllers
 {
-    [RoutePrefix("api/v1/cities")]
+    [RoutePrefix("api/v1/city")]
     public class CitiesController : ApiController
     {
         private readonly CitiesBLL _evService = new CitiesBLL(
@@ -22,7 +22,7 @@ namespace EventPublisherAPI.Controllers
         }
 
         [HttpGet]
-        [Route("city")]
+        [Route("get")]
         public IHttpActionResult GetCityInfo()
         {
             try
@@ -34,12 +34,12 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
         [HttpGet]
-        [Route("city/{id}")]
+        [Route("get/{id}")]
         public IHttpActionResult GetCityInfoByID(int id)
         {
             try
@@ -47,21 +47,21 @@ namespace EventPublisherAPI.Controllers
                 var result = _evService.GetCityByID(id);
                 return Ok(result);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
         [HttpPost]
-        [Route("city/post")]
-        public IHttpActionResult PostNewCity(int id, string Name)
+        [Route("post")]
+        public IHttpActionResult PostNewCity(string Name)
         {
             try
             {
-                _evService.AddCity(id, Name);
+                _evService.AddCity(Name);
                 return Ok();
             }
             catch (Exception e)
@@ -73,7 +73,7 @@ namespace EventPublisherAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("city/delete/{id}")]
+        [Route("delete/{id}")]
         public IHttpActionResult DeleteCity(int id)
         {
             try
@@ -85,7 +85,7 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 

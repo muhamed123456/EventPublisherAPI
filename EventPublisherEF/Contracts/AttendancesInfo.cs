@@ -8,6 +8,8 @@ namespace EventPublisherEF.Contracts
 {
     public class AttendancesInfo
     {
-        public string attendance { get; set; }
+        public int ID { get; set; }
+        public int attendance { get; set; }
+        public string eventName { get; set; }
     }
 }

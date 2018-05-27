@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace EventPublisherEF.Contracts
 {
-    public class AllPublishers
+    public class RolesInfo
     {
-        public string Name { get; set; }
-        public string CompanyName { get; set; }
+        public int ID { get; set; }
+        public string Role { get; set; }
     }
 }

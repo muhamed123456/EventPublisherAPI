@@ -12,25 +12,18 @@ namespace EventPublisherEF
     using System;
     using System.Collections.Generic;
     
-    public partial class Publisher
+    public partial class Role
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Publisher()
+        public Role()
         {
-            this.PubEvents = new HashSet<PubEvent>();
+            this.Users = new HashSet<User>();
         }
     
         public int ID { get; set; }
-        public string Name { get; set; }
-        public string CompanyName { get; set; }
-        public string Email { get; set; }
-        public int ID_City { get; set; }
-        public string PhoneNumber { get; set; }
-        public int ID_User { get; set; }
+        public string Role1 { get; set; }
     
-        public virtual City City { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PubEvent> PubEvents { get; set; }
-        public virtual User User { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

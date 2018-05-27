@@ -8,7 +8,7 @@ using EventPublisherBLL;
 
 namespace EventPublisherAPI.Controllers
 {
-    [RoutePrefix("api/v1/places")]
+    [RoutePrefix("api/v1/place")]
     public class PlacesController : ApiController
     {
         private readonly PlacesBLL _evService = new PlacesBLL(new EventPublisherEF.DataRepository.EventRepository(new EventPublisherEF.DataAccess.DbAccess()));
@@ -19,7 +19,7 @@ namespace EventPublisherAPI.Controllers
         }
 
         [HttpGet]
-        [Route("place")]
+        [Route("get")]
         public IHttpActionResult GetPlaceInfo()
         {
             try
@@ -31,12 +31,12 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
         [HttpGet]
-        [Route("place/{id}")]
+        [Route("get/{id}")]
         public IHttpActionResult GetPlacesByID(int id)
         {
             try
@@ -48,17 +48,17 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
         [HttpPost]
-        [Route("place/post")]
-        public IHttpActionResult PostNewPlace(int id, string placeName, int idCity)
+        [Route("post")]
+        public IHttpActionResult PostNewPlace(string placeName, string cityName)
         {
             try
             {
-                _evService.AddPlace(id, placeName, idCity);
+                _evService.AddPlace(placeName, cityName);
                 return Ok();
             }
             catch (Exception e)

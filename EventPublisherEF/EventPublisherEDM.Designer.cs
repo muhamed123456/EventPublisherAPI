@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Hristijan\Source\Repos\EventPublisherAPI2\EventPublisherEF\EventPublisherEDM.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Hristijan\Desktop\EventPublisherAPI2\EventPublisherEF\EventPublisherEDM.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

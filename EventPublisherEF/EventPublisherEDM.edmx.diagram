@@ -4,14 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9422769446ae4ec6a14fbded3ddbc7c0" Name="Diagram1">
-        <EntityTypeShape EntityType="EventPublisherDBModel.Attendance" Width="1.5" PointX="7.5" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventPublisherDBModel.City" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventPublisherDBModel.Event" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventPublisherDBModel.Place" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventPublisherDBModel.PubEvent" Width="1.5" PointX="7.5" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventPublisherDBModel.Publisher" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventPublisherDBModel.Type" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+      <Diagram DiagramId="16af06da29c54bef962abc1eb3728548" Name="Diagram1">
+        <EntityTypeShape EntityType="EventPublisherDBModel.Attendance" Width="1.5" PointX="7.5" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventPublisherDBModel.City" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventPublisherDBModel.Event" Width="1.5" PointX="5.25" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventPublisherDBModel.Place" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventPublisherDBModel.PubEvent" Width="1.5" PointX="7.5" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventPublisherDBModel.Publisher" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventPublisherDBModel.Role" Width="1.5" PointX="1.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventPublisherDBModel.Type" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventPublisherDBModel.User" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
         <AssociationConnector Association="EventPublisherDBModel.FK_Attendance_Event" ManuallyRouted="false" />
         <AssociationConnector Association="EventPublisherDBModel.FK_Event_City" ManuallyRouted="false" />
         <AssociationConnector Association="EventPublisherDBModel.FK_Place_City" ManuallyRouted="false" />
@@ -20,6 +22,8 @@
         <AssociationConnector Association="EventPublisherDBModel.FK_Event_Type" ManuallyRouted="false" />
         <AssociationConnector Association="EventPublisherDBModel.FK_PubEvent_Event" ManuallyRouted="false" />
         <AssociationConnector Association="EventPublisherDBModel.FK_PubEvent_Publisher" ManuallyRouted="false" />
+        <AssociationConnector Association="EventPublisherDBModel.FK_Publisher_User" ManuallyRouted="false" />
+        <AssociationConnector Association="EventPublisherDBModel.FK_User_Role" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
