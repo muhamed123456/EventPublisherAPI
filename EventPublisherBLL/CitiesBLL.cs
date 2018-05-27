@@ -34,9 +34,9 @@ namespace EventPublisherBLL
 
         
         //Insert
-        public void AddCity(int id, string Name)
+        public void AddCity(string Name)
         {
-            _ev.AddCity(id, Name);
+            _ev.AddCity(Name);
         }
 
 

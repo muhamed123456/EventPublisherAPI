@@ -18,7 +18,7 @@ namespace EventPublisherBLL
         }
 
         //Get All Events
-        public List<AllEvents> GetEvents()
+        public List<SearchedEvents> GetEvents()
         {
             return _ev.GetEventInfo();
         }
@@ -36,15 +36,15 @@ namespace EventPublisherBLL
         }
 
         //create new event
-        public void CreateEvent(int id, string name, string description, string cityName, string placeName, string typeName, System.DateTime startDate, System.DateTime endDate, bool approved)
+        public void CreateEvent(string name, string description, int idCity, int idPlace, int idType, System.DateTime startDate, System.DateTime endDate, bool approved)
         {
-            _ev.CreateEvent( id,  name,  description,  cityName,  placeName,  typeName,  startDate,  endDate,  approved);
+            _ev.CreateEvent(name,  description,  idCity,  idPlace,  idType,  startDate,  endDate,  approved);
         }
 
         //update event info
-        public void UpdateEvent(int id, SearchedEvents event1)
+        public void UpdateEvent(int id, string name, string description, string cityName, string placeName, string typeName, System.DateTime startDate, System.DateTime endDate, bool approved)
         {
-            _ev.UpdateEvent(id, event1);
+            _ev.UpdateEvent( id,  name,  description,  cityName,  placeName,  typeName,  startDate,  endDate,  approved);
         }
 
         //delete event

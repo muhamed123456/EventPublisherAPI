@@ -10,7 +10,7 @@ using EventPublisherEF;
 
 namespace EventPublisherAPI.Controllers
 { 
-    [RoutePrefix("api/v1/events")]
+    [RoutePrefix("api/v1/event")]
     public class EventsController : ApiController
     {
     private readonly EventsBLL _evService = new EventsBLL(
@@ -22,7 +22,7 @@ namespace EventPublisherAPI.Controllers
     }
 
     [HttpGet]
-    [Route("event")]
+    [Route("get")]
 
     public IHttpActionResult GetEventInfo()
     {
@@ -31,16 +31,16 @@ namespace EventPublisherAPI.Controllers
             var result = _evService.GetEvents();
                 return Ok(result);
         }
-        catch(Exception e)
-        {
+            catch (Exception e)
+            {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
-    }
+        }
 
         [HttpGet]
-        [Route("event/{id:int}")]
+        [Route("get/{id:int}")]
         public IHttpActionResult GetEventInfoById(int id)
         {
             try
@@ -48,11 +48,11 @@ namespace EventPublisherAPI.Controllers
                 var result = _evService.GetEventsById(id);
                 return Ok(result);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
@@ -69,29 +69,29 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
         [HttpPut]
-        [Route("event/put/{id}")]
-        public IHttpActionResult EditEvent(int id, [FromBody]SearchedEvents event1)
+        [Route("put/{id}")]
+        public IHttpActionResult EditEvent(int id, string name, string description, string cityName, string placeName, string typeName, System.DateTime startDate, System.DateTime endDate, bool approved)
         {
             try
             {
-                _evService.UpdateEvent(id, event1);
+                _evService.UpdateEvent( id,  name,  description,  cityName,  placeName,  typeName,  startDate,  endDate,  approved);
                 return Ok();
             }
             catch (Exception e)
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
         [HttpDelete]
-        [Route("event/delete/{id}")]
+        [Route("delete/{id}")]
         public IHttpActionResult DeleteEvent(int id)
         {
             try
@@ -103,17 +103,17 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
         [HttpPost]
-        [Route("event/post")]
-        public IHttpActionResult PostNewEvent(int id, string name, string description, string cityName, string placeName, string typeName, System.DateTime startDate, System.DateTime endDate, bool approved)
+        [Route("post")]
+        public IHttpActionResult PostNewEvent(string name, string description, int idCity, int idPlace, int idType, System.DateTime startDate, System.DateTime endDate, bool approved)
         {
             try
             {
-                _evService.CreateEvent(id, name, description, cityName, placeName, typeName, startDate, endDate, approved);
+                _evService.CreateEvent(name, description, idCity, idPlace, idType, startDate, endDate, approved);
                 return Ok();
             }
             catch (Exception e)

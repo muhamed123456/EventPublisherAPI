@@ -18,152 +18,122 @@ namespace EventPublisherEF.DataRepository
             _dbContext = dbAccess.GetContext();
         }
 
-        public List<AllEvents> GetEventInfo()
+        //Select All Events
+        public List<SearchedEvents> GetEventInfo()
         {
-            var myEvent = (from e in _dbContext.Events
-                           where e.Approved == true
-                           select new AllEvents()
-                           {
-                               Name = e.Name,
-                               StartEvent = e.StartEvent,
-                               EndEvent = e.EndEvent
-                           }).ToList();
-            return myEvent;
+            return _dbContext.Events.Where(e => e.Approved == true).Select(e => new SearchedEvents
+            {
+                ID = e.ID,
+                Name =e.Name,
+                Description = e.Description,
+                City = e.City.Name,
+                Place = e.Place.PlaceName,
+                Type = e.Type.Type1,
+                StartEvent =e.StartEvent,
+                EndEvent =e.EndEvent})
+            .ToList();
         }
 
-        public void CreateEvent(int id, string name, string description, string cityName, string placeName, string typeName, System.DateTime startDate, System.DateTime endDate, bool approved)
+        
+        //Create Event
+        public void CreateEvent(string name, string description, int idCity, int idPlace, int idType, System.DateTime startDate, System.DateTime endDate, bool approved)
         {
             Event event1 = new Event();
-            event1.ID = id;
             event1.Name = name;
-            int idCity = (from c in _dbContext.Cities
-                          where c.Name == cityName
-                          select c.ID).First();
-            int idType = (from t in _dbContext.Types
-                          where t.Type1 == typeName
-                          select t.ID).First();
-            int idPlace = (from p in _dbContext.Places
-                           where p.PlaceName == placeName
-                           select p.ID).First();
+            event1.Description = description;
             event1.ID_City = idCity;
             event1.ID_Place = idPlace;
             event1.ID_Type = idType;
             event1.StartEvent = startDate;
             event1.EndEvent = endDate;
-            event1.Approved = false;
+            event1.Approved = approved;
+
             _dbContext.Events.Add(event1);
             _dbContext.SaveChanges();
         }
 
-        public void UpdateEvent(int id, SearchedEvents event1)
+        //Edit an Event
+        public void UpdateEvent(int id, string name, string description, string cityName, string placeName, string typeName, System.DateTime startDate, System.DateTime endDate, bool approved)
         {
-            var event2 = _dbContext.Events.Where(e => e.Approved && e.ID == id).First();
-            event2.City.Name = event1.City;
-            event2.Type.Type1 = event1.Type;
-            event2.Place.PlaceName = event1.Place;
-            event2.Description = event1.Description;
-            event2.StartEvent = event1.StartEvent;
-            event2.EndEvent = event1.EndEvent;
+            var event2 = _dbContext.Events.First(e => e.Approved && e.ID == id);
+            event2.City.Name = cityName;
+            event2.Type.Type1 = typeName;
+            event2.Place.PlaceName = placeName;
+            event2.Description = description;
+            event2.StartEvent = startDate;
+            event2.EndEvent = endDate;
 
-
-            _dbContext.Events.Attach(event2);
-            _dbContext.Entry(event2).State = System.Data.Entity.EntityState.Modified;
-        }
-
-        public List<SearchedEvents> GetEventInfoById(int id)
-        {
-            var myEvent = (from e in _dbContext.Events
-                           join c in _dbContext.Cities on e.ID_City equals c.ID
-                           join t in _dbContext.Types on e.ID_Type equals t.ID
-                           join p in _dbContext.Places on e.ID_Place equals p.ID
-                           join a in _dbContext.Attendances on e.ID equals a.ID_Event
-                           where e.Approved == true && e.ID == id
-                           select new SearchedEvents()
-                           {
-                               Name = e.Name,
-                               City = c.Name,
-                               Place = p.PlaceName,
-                               Type = t.Type1,
-                               Description = e.Description,
-                               StartEvent = e.StartEvent,
-                               EndEvent = e.EndEvent,
-                               Attendance = a.Attendance1
-                           }).ToList();
-            return myEvent;
-        }
-
-        public List<SearchedEvents> GetEventInfoByName(string name)
-        {
-            var myEvent = (from e in _dbContext.Events
-                           join c in _dbContext.Cities on e.ID_City equals c.ID
-                           join t in _dbContext.Types on e.ID_Type equals t.ID
-                           join p in _dbContext.Places on e.ID_Place equals p.ID
-                           join a in _dbContext.Attendances on e.ID equals a.ID_Event
-                           where e.Approved == true && e.Name == name
-                           select new SearchedEvents()
-                           {
-                               Name = e.Name,
-                               City = c.Name,
-                               Place = p.PlaceName,
-                               Type = t.Type1,
-                               Description = e.Description,
-                               StartEvent = e.StartEvent,
-                               EndEvent = e.EndEvent,
-                               Attendance = a.Attendance1
-                           }).ToList();
-            return myEvent;
-        }
-
-
-        public void DeleteEvent(int id)
-        {
-            var eventDelete = _dbContext.Events.Where(e => e.ID == id).First();
-            _dbContext.Events.Remove(eventDelete);
             _dbContext.SaveChanges();
         }
+
+
+        //Search for Event by ID
+        public List<SearchedEvents> GetEventInfoById(int id)
+        {
+            return _dbContext.Events.Where(e => e.ID == id && e.Approved==true).Select(e => new SearchedEvents{
+                ID = e.ID, Name = e.Name,
+                Description = e.Description,
+                City = e.City.Name,
+                Place = e.Place.PlaceName,
+                Type = e.Type.Type1,
+                StartEvent = e.StartEvent,
+                EndEvent = e.EndEvent }).ToList();
+        }
+
+
+        //Search for Event by Name
+        public List<SearchedEvents> GetEventInfoByName(string name)
+        {
+            return _dbContext.Events.Where(e => e.Name == name && e.Approved==true).Select(e => new SearchedEvents
+            {
+                ID = e.ID,
+                Name = e.Name,
+                Description = e.Description,
+                City = e.City.Name,
+                Place = e.Place.PlaceName,
+                Type = e.Type.Type1,
+                StartEvent = e.StartEvent,
+                EndEvent = e.EndEvent
+            }).ToList();
+        }
+
+
+        //Delete an existing Event
+        public void DeleteEvent(int id)
+        {
+            _dbContext.Events.Remove(_dbContext.Events.First(e => e.ID == id));
+            _dbContext.SaveChanges();
+        }
+
 
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
         //-------------------CITIES----------------------------------------
 
+
+        //Get all Cities
         public List<CitiesInfo> GetCityInfo()
         {
-            var cityInfo = (from c in _dbContext.Cities
-                            select new CitiesInfo()
-                            {
-                                Name = c.Name
-                            }).ToList();
-            return cityInfo;
+            return _dbContext.Cities.Select(c => new CitiesInfo {ID = c.ID, Name=c.Name }).ToList();
         }
 
-        public List<string> GetCity()
-        {
-            var gradovi = _dbContext.Cities.Select(c => c.Name).ToList();
-            return gradovi;
-        }
 
+        //Search for a City by ID
         public List<CitiesInfo> GetCityInfoById(int id)
         {
-            {
-                var cityInfo = (from c in _dbContext.Cities
-                                where c.ID == id
-                                select new CitiesInfo()
-                                {
-                                    Name = c.Name
-                                }).ToList();
-                return cityInfo;
-            }
+            return _dbContext.Cities.Where(c => c.ID == id).Select(c => new CitiesInfo { ID = c.ID, Name = c.Name }).ToList();
         }
 
-        public void AddCity(int id, string Name)
+        //Add a new City
+        public void AddCity(string Name)
         {
             City city1 = new City();
-            city1.ID = id;
             city1.Name = Name;
             _dbContext.Cities.Add(city1);
             _dbContext.SaveChanges();
         }
 
+        //Remove a City
         public void DeleteCity(int id)
         {
             _dbContext.Cities.Remove(_dbContext.Cities.First(c => c.ID == id));
@@ -171,38 +141,37 @@ namespace EventPublisherEF.DataRepository
         }
 
 
+
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
         //-------------------PLACES----------------------------------------
 
+
+        //Get all Places
         public List<PlacesInfo> GetPlaceInfo()
         {
-            var placeInfo = (from p in _dbContext.Places
-                             join c in _dbContext.Cities on p.ID_City equals c.ID
-                             select new PlacesInfo()
-                             {
-                                 PlaceName = p.PlaceName,
-                                 CityName = c.Name,
-
-                             }).ToList();
-            return placeInfo;
+            return _dbContext.Places.Select(p => new PlacesInfo
+            {
+                ID = p.ID,
+                CityName = p.City.Name,
+                PlaceName = p.PlaceName
+            }).ToList();
         }
+        
 
+        //Search for Place by ID
         public List<PlacesInfo> GetPlaceInfoById(int id)
         {
-            var placeInfo = (from p in _dbContext.Places
-                             join c in _dbContext.Cities on p.ID_City equals c.ID
-                             where p.ID == id
-                             select new PlacesInfo()
-                             {
-                                 PlaceName = p.PlaceName,
-                                 CityName = c.Name,
-
-                             }).ToList();
-            return placeInfo;
+            return _dbContext.Places.Where(p => p.ID == id).Select(p => new PlacesInfo
+            {
+                ID = p.ID,
+                CityName = p.City.Name,
+                PlaceName = p.PlaceName
+            }).ToList();
         }
 
-        public void AddPlace(int id, string placeName, int idCity)
+        //Add a place
+        public void AddPlace(string placeName, int idCity)
         {
             Place place1 = new Place();
             
@@ -213,12 +182,13 @@ namespace EventPublisherEF.DataRepository
             _dbContext.SaveChanges();
         }
 
+        //Delete a place
         public void DeletePlace(int id)
         {
-            var place = _dbContext.Places.Where(p => p.ID == id).First();
-            _dbContext.Places.Remove(place);
+            _dbContext.Places.Remove(_dbContext.Places.First(p => p.ID == id));
             _dbContext.SaveChanges();
         }
+
 
 
 
@@ -229,21 +199,26 @@ namespace EventPublisherEF.DataRepository
          * -------------------------------------------------------------------------------------
          * -----------------------------------------------------------------------------------*/
 
-        public List<AllPublishers> GetPublisherInfo()
+
+        //Get a list of all publishers
+        public List<GetPublishersByNames> GetPublisherInfo()
         {
-            var myPublisher = (from p in _dbContext.Publishers
-                               select new AllPublishers()
-                               {
-                                   Name = p.Name,
-                                   CompanyName = p.CompanyName
-                               }).ToList();
-            return myPublisher;
+            return _dbContext.Publishers.Select(p => new GetPublishersByNames
+            {
+                ID = p.ID,
+                Name = p.Name,
+                CompanyName = p.CompanyName,
+                Email =p.Email,
+                City = p.City.Name
+            }).ToList();
         }
 
-        public void CreatePublisher(int id, string name, string companyName, string email, int idCity, string phoneNumber, string idUser)
+        //create publisher
+        public void CreatePublisher(string name, string companyName, string email, int idCity, string phoneNumber, int idUser)
         {
             Publisher pub = new Publisher();
-            pub.ID = id;
+
+            pub.Name = name;
             pub.CompanyName = companyName;
             pub.Email = email;
             pub.ID_City = idCity;
@@ -254,147 +229,230 @@ namespace EventPublisherEF.DataRepository
             _dbContext.SaveChanges();
         }
 
-        public void UpdatePublisher(int id, Publisher pub)
+        //edit publisher's info
+        public void UpdatePublisher(int id, string name, string companyName, string email, int idCity, string phoneNumber, int idUser)
         {
-            var pub1 = _dbContext.Publishers.Where(p => p.ID == id).First();
-            var city1 = _dbContext.Cities.Where(c1 => c1.ID == pub1.ID_City).First();
+            var pub1 = _dbContext.Publishers.First(p => p.ID == id);
 
-            pub1.Name = pub.Name;
-            pub1.CompanyName = pub.CompanyName;
-            pub1.ID_City = city1.ID;
-            pub1.Email = pub.Email;
-            pub1.PhoneNumber = pub.PhoneNumber;
-            pub1.ID_User = pub.ID_User;
+            pub1.Name = name;
+            pub1.CompanyName = companyName;
+            pub1.ID_City = idCity;
+            pub1.Email = email;
+            pub1.PhoneNumber = phoneNumber;
+            pub1.ID_User = idUser;
 
-            _dbContext.Publishers.Attach(pub1);
-            _dbContext.Entry(pub1).State = System.Data.Entity.EntityState.Modified;
+            
+            _dbContext.SaveChanges();
         }
 
+
+        //Search for a publisher by ID
         public List<GetPublishersByNames> GetPublisherInfoByID(int Id)
         {
-            var myPublisher = (from p in _dbContext.Publishers
-                               join c in _dbContext.Cities on p.ID_City equals c.ID
-                               where p.ID == Id
-                               select new GetPublishersByNames()
-                               {
-                                   Name = p.Name,
-                                   City = c.Name,
-                                   CompanyName = p.CompanyName,
-                                   Email = p.Email,
-                               }).ToList();
-            return myPublisher;
+            return _dbContext.Publishers.Where(p => p.ID == Id).Select(p => new GetPublishersByNames
+            {
+                ID = p.ID,
+                Name = p.Name,
+                City = p.City.Name,
+                CompanyName = p.CompanyName,
+                Email = p.Email
+            }).ToList();
         }
 
+
+        //Search for a publisher by name
         public List<GetPublishersByNames> GetPublisherInfoByName(string name)
         {
-            var myPublisher = (from p in _dbContext.Publishers
-                               join c in _dbContext.Cities on p.ID_City equals c.ID
-                               where p.Name == name
-                               select new GetPublishersByNames()
-                               {
-                                   Name = p.Name,
-                                   City = c.Name,
-                                   CompanyName = p.CompanyName,
-                                   Email = p.Email
-
-                               }).ToList();
-            return myPublisher;
+            return _dbContext.Publishers.Where(p => p.Name == name).Select(p => new GetPublishersByNames
+            {
+                ID = p.ID,
+                Name = p.Name,
+                City = p.City.Name,
+                CompanyName = p.CompanyName,
+                Email = p.Email
+            }).ToList();
         }
 
+
+        //Search for a publisher by company name
         public List<GetPublishersByNames> GetPublisherInfoByCompanyName(string companyName)
         {
-            var myPublisher = (from p in _dbContext.Publishers
-                               join c in _dbContext.Cities on p.ID_City equals c.ID
-                               where p.CompanyName == companyName
-                               select new GetPublishersByNames()
-                               {
-                                   Name = p.Name,
-                                   City = c.Name,
-                                   CompanyName = p.CompanyName,
-                                   Email = p.Email
-                               }).ToList();
-            return myPublisher;
+            return _dbContext.Publishers.Where(p => p.CompanyName == companyName).Select(p => new GetPublishersByNames
+            {
+                ID = p.ID,
+                Name = p.Name,
+                City = p.City.Name,
+                CompanyName = p.CompanyName,
+                Email = p.Email
+            }).ToList();
         }
 
 
+        //Delete a publisher
         public void DeletePublisher(int id)
         {
             _dbContext.Publishers.Remove(_dbContext.Publishers.First(p => p.ID == id));
             _dbContext.SaveChanges();
         }
+
         //----------------------------------------------------------
         //----------------------------------------------------------
         //----------------TYPES-------------------------------------
 
+
+        //Get all types
         public List<TypesInfo> GetTypeInfo()
         {
-            var typeinfo = (from t in _dbContext.Types
-                            select new TypesInfo()
-                            {
-                                type = t.Type1
-                            }).ToList();
-            return typeinfo;
+            return _dbContext.Types.Select(t => new TypesInfo
+            {
+                ID = t.ID,
+                type = t.Type1
+            }).ToList();
         }
 
+
+        //Get a type by ID
         public List<TypesInfo> GetTypeInfoById(int id)
         {
 
+            return _dbContext.Types.Where(t => t.ID == id).Select(t => new TypesInfo
             {
-                var typeinfo = (from t in _dbContext.Types
-                                where t.ID == id
-                                select new TypesInfo()
-                                {
-                                    type = t.Type1
-                                }).ToList();
-                return typeinfo;
-            }
+                ID = t.ID,
+                type = t.Type1
+            }).ToList();
         }
 
-        public void AddType(int id, string type)
+
+        //Add new type
+        public void AddType(string type)
         {
             Type type2 = new Type();
-            type2.ID = id;
             type2.Type1 = type;
             _dbContext.Types.Add(type2);
             _dbContext.SaveChanges();
         }
 
-
-    public void DeleteType(int id)
+        //Delete a type
+        public void DeleteType(int id)
         {
-            var type = _dbContext.Types.Where(t => t.ID == id).First();
-            _dbContext.Types.Remove(type);
+            _dbContext.Types.Remove(_dbContext.Types.First(t => t.ID == id));
             _dbContext.SaveChanges();
         }
+
 
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
         //------------------ATTENDANCES------------------------------------
 
+
+        //Get all attendances info
         public List<AttendancesInfo> GetAttendanceInfo()
         {
-            var attinfo = (from a in _dbContext.Attendances
-                           select new AttendancesInfo()
-                           {
-                               attendance = a.Attendance1.ToString()
-                           }).ToList();
-            return attinfo;
+            return _dbContext.Attendances.Select(a => new AttendancesInfo
+            {
+                ID = a.ID,
+                attendance = a.Attendance1,
+                eventName = a.Event.Name
+            }).ToList();
         }
 
+
+        //Get attendance info by ID
         public List<AttendancesInfo> GetAttendanceInfoById(int id)
         {
             {
-                var attinfo = (from a in _dbContext.Attendances
-                               where a.ID == id
-                               select new AttendancesInfo()
-                               {
-                                   attendance = a.Attendance1.ToString()
-                               }).ToList();
-                return attinfo;
+                return _dbContext.Attendances.Where(a => a.ID==id).Select(a => new AttendancesInfo
+                {
+                    ID = a.ID,
+                    attendance = a.Attendance1,
+                    eventName = a.Event.Name
+                }).ToList();
             }
         }
 
+        //-----------------------------------------------------------------
+        //-----------------------------------------------------------------
+        //------------------USERS------------------------------------------
 
+            //Get All Users
+        public List<UsersInfo> GetUserInfo()
+        {
+            return _dbContext.Users.Select(u => new UsersInfo
+            {
+                ID = u.ID,
+                Username = u.Username,
+                Password = u.Password,
+                Role = u.Role.Role1
+            }).ToList();
+        }
+
+        //Get User by ID
+        public List<UsersInfo> GetUserInfoById(int id)
+        {
+
+            return _dbContext.Users.Where(u => u.ID == id).Select(u => new UsersInfo
+            {
+                ID = u.ID,
+                Username = u.Username,
+                Password = u.Password,
+                Role = u.Role.Role1
+            }).ToList();
+        }
+
+        //Add a new user
+        public void AddUser(string userName, string passWord, int ID_Role)
+        {
+            User user2 = new User();
+            user2.Username = userName;
+            user2.Password = passWord;
+            user2.RoleID = ID_Role;
+            _dbContext.Users.Add(user2);
+            _dbContext.SaveChanges();
+        }
+
+        //Delete user
+        public void DeleteUser(int id)
+        {
+            _dbContext.Users.Remove(_dbContext.Users.First(u => u.ID == id));
+            _dbContext.SaveChanges();
+        }
+
+        //-----------------------------------------------------------------
+        //-----------------------------------------------------------------
+        //------------------ROLES------------------------------------------
+
+        public List<RolesInfo> GetRolesInfo()
+        {
+            return _dbContext.Roles.Select(r => new RolesInfo
+            {
+                ID = r.ID,
+                Role = r.Role1
+            }).ToList();
+        }
+
+
+        public List<RolesInfo> GetRolesInfoByID(int id)
+        {
+            return _dbContext.Roles.Where(r => r.ID == id).Select(r => new RolesInfo
+            {
+                ID = r.ID,
+                Role = r.Role1
+            }).ToList();
+        }
+
+        public void AddRole(string Role)
+        {
+            Role role2 = new Role();
+            role2.Role1 = Role;
+            _dbContext.Roles.Add(role2);
+            _dbContext.SaveChanges();
+        }
+
+        public void DeleteRole(int id)
+        {
+            _dbContext.Roles.Remove(_dbContext.Roles.First(r => r.ID == id));
+            _dbContext.SaveChanges();
+        }
 
 
     }
