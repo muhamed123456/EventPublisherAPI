@@ -5,10 +5,12 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using EventPublisherBLL;
+using EventPublisherEF.Contracts;
+using EventPublisherEF;
 
 namespace EventPublisherAPI.Controllers
 {
-    [RoutePrefix("api/v1/types")]
+    [RoutePrefix("api/v1/type")]
     public class TypesController : ApiController
     {
         private readonly TypesBLL _evService = new TypesBLL(
@@ -19,8 +21,10 @@ namespace EventPublisherAPI.Controllers
 
         }
 
+
+        //Get all types
         [HttpGet]
-        [Route("type")]
+        [Route("get")]
 
         public IHttpActionResult GetTypeInfo()
         {
@@ -33,12 +37,14 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
+
+        //Get a type by ID
         [HttpGet]
-        [Route("type/{id=int}")]
+        [Route("get/{id:int}")]
 
         public IHttpActionResult GetTypeInfoById(int id)
         {
@@ -51,18 +57,19 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
 
+        //Add new type
         [HttpPost]
-        [Route("type/post")]
-        public IHttpActionResult PostNewType(int id, string type)
+        [Route("post")]
+        public IHttpActionResult PostNewType(EventPublisherEF.Type type1)
         {
             try
             {
-                _evService.AddType(id, type);
+                _evService.AddType(type1);
                 return Ok();
             }
             catch (Exception e)

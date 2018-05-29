@@ -60,7 +60,14 @@
           <Property Name="Email" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="ID_City" Type="int" Nullable="false" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="ID_User" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ID_User" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Role" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Type">
           <Key>
@@ -68,6 +75,15 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Type" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Attendance_Event">
           <End Role="Event" Type="Self.Event" Multiplicity="1" />
@@ -165,6 +181,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Publisher_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Publisher" Type="Self.Publisher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Publisher">
+              <PropertyRef Name="ID_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="EventPublisherDBModelStoreContainer">
           <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
@@ -172,7 +212,9 @@
           <EntitySet Name="Place" EntityType="Self.Place" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PubEvent" EntityType="Self.PubEvent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Publisher" EntityType="Self.Publisher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Type" EntityType="Self.Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Attendance_Event" Association="Self.FK_Attendance_Event">
             <End Role="Event" EntitySet="Event" />
             <End Role="Attendance" EntitySet="Attendance" />
@@ -204,6 +246,14 @@
           <AssociationSet Name="FK_Publisher_City" Association="Self.FK_Publisher_City">
             <End Role="City" EntitySet="City" />
             <End Role="Publisher" EntitySet="Publisher" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Publisher_User" Association="Self.FK_Publisher_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Publisher" EntitySet="Publisher" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -279,9 +329,18 @@
           <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ID_City" Type="Int32" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ID_User" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ID_User" Type="Int32" Nullable="false" />
           <NavigationProperty Name="City" Relationship="Self.FK_Publisher_City" FromRole="Publisher" ToRole="City" />
           <NavigationProperty Name="PubEvents" Relationship="Self.FK_PubEvent_Publisher" FromRole="Publisher" ToRole="PubEvent" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Publisher_User" FromRole="Publisher" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Role1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
         </EntityType>
         <EntityType Name="Type">
           <Key>
@@ -290,6 +349,17 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Type1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Events" Relationship="Self.FK_Event_Type" FromRole="Type" ToRole="Event" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Publishers" Relationship="Self.FK_Publisher_User" FromRole="User" ToRole="Publisher" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
         </EntityType>
         <Association Name="FK_Attendance_Event">
           <End Role="Event" Type="Self.Event" Multiplicity="1" />
@@ -387,14 +457,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="EventPublisherDBEntities3" annotation:LazyLoadingEnabled="true">
+        <Association Name="FK_Publisher_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Publisher" Type="Self.Publisher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Publisher">
+              <PropertyRef Name="ID_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EventPublisherDBEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Attendances" EntityType="Self.Attendance" />
           <EntitySet Name="Cities" EntityType="Self.City" />
           <EntitySet Name="Events" EntityType="Self.Event" />
           <EntitySet Name="Places" EntityType="Self.Place" />
           <EntitySet Name="PubEvents" EntityType="Self.PubEvent" />
           <EntitySet Name="Publishers" EntityType="Self.Publisher" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
           <EntitySet Name="Types" EntityType="Self.Type" />
+          <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="FK_Attendance_Event" Association="Self.FK_Attendance_Event">
             <End Role="Event" EntitySet="Events" />
             <End Role="Attendance" EntitySet="Attendances" />
@@ -427,13 +523,21 @@
             <End Role="Publisher" EntitySet="Publishers" />
             <End Role="PubEvent" EntitySet="PubEvents" />
           </AssociationSet>
+          <AssociationSet Name="FK_Publisher_User" Association="Self.FK_Publisher_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Publisher" EntitySet="Publishers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="EventPublisherDBModelStoreContainer" CdmEntityContainer="EventPublisherDBEntities3">
+        <EntityContainerMapping StorageEntityContainer="EventPublisherDBModelStoreContainer" CdmEntityContainer="EventPublisherDBEntities1">
           <EntitySetMapping Name="Attendances">
             <EntityTypeMapping TypeName="EventPublisherDBModel.Attendance">
               <MappingFragment StoreEntitySet="Attendance">
@@ -497,11 +601,29 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="EventPublisherDBModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Role1" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Types">
             <EntityTypeMapping TypeName="EventPublisherDBModel.Type">
               <MappingFragment StoreEntitySet="Type">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Type1" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="EventPublisherDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

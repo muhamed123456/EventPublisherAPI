@@ -55,15 +55,14 @@
     <Compile Include="City.cs">
       <DependentUpon>EventPublisherEDM.tt</DependentUpon>
     </Compile>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Contracts\AllEvents.cs" />
-    <Compile Include="Contracts\AllPublishers.cs" />
     <Compile Include="Contracts\AttendancesInfo.cs" />
     <Compile Include="Contracts\CitiesInfo.cs" />
     <Compile Include="Contracts\GetPublishersByNames.cs" />
     <Compile Include="Contracts\PlacesInfo.cs" />
+    <Compile Include="Contracts\RolesInfo.cs" />
     <Compile Include="Contracts\SearchedEvents.cs" />
     <Compile Include="Contracts\TypesInfo.cs" />
+    <Compile Include="Contracts\UsersInfo.cs" />
     <Compile Include="DataAccess\DbAccess.cs" />
     <Compile Include="DataAccess\IDbAccess.cs" />
     <Compile Include="DataRepository\EventRepository.cs" />
@@ -96,12 +95,20 @@
     <Compile Include="Publisher.cs">
       <DependentUpon>EventPublisherEDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Role.cs">
+      <DependentUpon>EventPublisherEDM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Type.cs">
+      <DependentUpon>EventPublisherEDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
       <DependentUpon>EventPublisherEDM.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <EntityDeploy Include="EventPublisherEDM.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>EventPublisherEDM.Designer.cs</LastGenOutput>

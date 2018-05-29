@@ -10,7 +10,7 @@ using EventPublisherEF;
 
 namespace EventPublisherAPI.Controllers
 {
-    [RoutePrefix("api/v1/cities")]
+    [RoutePrefix("api/v1/city")]
     public class CitiesController : ApiController
     {
         private readonly CitiesBLL _evService = new CitiesBLL(
@@ -21,8 +21,10 @@ namespace EventPublisherAPI.Controllers
 
         }
 
+
+        //Get all cities
         [HttpGet]
-        [Route("city")]
+        [Route("get")]
         public IHttpActionResult GetCityInfo()
         {
             try
@@ -34,12 +36,14 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
+
+        //Get a city by ID
         [HttpGet]
-        [Route("city/{id}")]
+        [Route("get/{id:int}")]
         public IHttpActionResult GetCityInfoByID(int id)
         {
             try
@@ -47,21 +51,23 @@ namespace EventPublisherAPI.Controllers
                 var result = _evService.GetCityByID(id);
                 return Ok(result);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
+
+        //Add new city
         [HttpPost]
-        [Route("city/post")]
-        public IHttpActionResult PostNewCity(int id, string Name)
+        [Route("post")]
+        public IHttpActionResult PostNewCity(City city1)
         {
             try
             {
-                _evService.AddCity(id, Name);
+                _evService.AddCity(city1);
                 return Ok();
             }
             catch (Exception e)
@@ -72,8 +78,10 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+
+        //Delete a city
         [HttpDelete]
-        [Route("city/delete/{id}")]
+        [Route("delete/{id:int}")]
         public IHttpActionResult DeleteCity(int id)
         {
             try
@@ -85,7 +93,7 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 

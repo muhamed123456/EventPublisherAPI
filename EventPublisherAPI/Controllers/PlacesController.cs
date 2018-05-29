@@ -5,10 +5,12 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using EventPublisherBLL;
+using EventPublisherEF.Contracts;
+using EventPublisherEF;
 
 namespace EventPublisherAPI.Controllers
 {
-    [RoutePrefix("api/v1/places")]
+    [RoutePrefix("api/v1/place")]
     public class PlacesController : ApiController
     {
         private readonly PlacesBLL _evService = new PlacesBLL(new EventPublisherEF.DataRepository.EventRepository(new EventPublisherEF.DataAccess.DbAccess()));
@@ -18,8 +20,10 @@ namespace EventPublisherAPI.Controllers
 
         }
 
+
+        //Get all places
         [HttpGet]
-        [Route("place")]
+        [Route("get")]
         public IHttpActionResult GetPlaceInfo()
         {
             try
@@ -31,12 +35,14 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
+        
 
+        //Get a place by ID
         [HttpGet]
-        [Route("place/{id}")]
+        [Route("get/{id:int}")]
         public IHttpActionResult GetPlacesByID(int id)
         {
             try
@@ -48,17 +54,19 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
+
+        //Add new place
         [HttpPost]
-        [Route("place/post")]
-        public IHttpActionResult PostNewPlace(int id, string placeName, int idCity)
+        [Route("post")]
+        public IHttpActionResult PostNewPlace(Place place1)
         {
             try
             {
-                _evService.AddPlace(id, placeName, idCity);
+                _evService.AddPlace(place1);
                 return Ok();
             }
             catch (Exception e)

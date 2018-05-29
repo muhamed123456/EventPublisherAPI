@@ -5,10 +5,12 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using EventPublisherBLL;
+using EventPublisherEF.Contracts;
+using EventPublisherEF;
 
 namespace EventPublisherAPI.Controllers
 {
-    [RoutePrefix("api/v1/attendances")]
+    [RoutePrefix("api/v1/attendance")]
     public class AttendancesController : ApiController
     {
         private readonly AttendancesBLL _evService = new AttendancesBLL(
@@ -20,9 +22,10 @@ namespace EventPublisherAPI.Controllers
 
         }
 
-        [HttpGet]
-        [Route("attendance")]
 
+        //Get Attendances info
+        [HttpGet]
+        [Route("get")]
         public IHttpActionResult GetAttendanceInfo()
         {
             try
@@ -34,13 +37,14 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
-        [HttpGet]
-        [Route("type/{id=int}")]
 
+        //Get Attendance info by ID
+        [HttpGet]
+        [Route("get/{id:int}")]
         public IHttpActionResult GetAttendanceInfoById(int id)
         {
             try
@@ -52,7 +56,7 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
     }

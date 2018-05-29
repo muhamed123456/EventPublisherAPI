@@ -5,10 +5,12 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using EventPublisherBLL;
+using EventPublisherEF.Contracts;
+using EventPublisherEF;
 
 namespace EventPublisherAPI.Controllers
 {
-    [RoutePrefix("api/v1/publishers")]
+    [RoutePrefix("api/v1/publisher")]
     public class PublishersController : ApiController
     {
         private readonly PublishersBLL _evService = new PublishersBLL(
@@ -18,8 +20,10 @@ namespace EventPublisherAPI.Controllers
         {
 
         }
+
+        //Get all publishers
         [HttpGet]
-        [Route("publisher")]
+        [Route("get")]
 
         public IHttpActionResult GetPublishersInfo()
         {
@@ -32,11 +36,13 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
+
+        //Get a publisher by ID
         [HttpGet]
-        [Route("publisher/{id=int}")]
+        [Route("get/{id:int}")]
         public IHttpActionResult GetPublisherInfoByID(int id)
         {
             try
@@ -48,12 +54,14 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
+
+        //Get a publisher by name
         [HttpGet]
-        [Route("publisher/{name}")]
+        [Route("get/name/{name}")]
         public IHttpActionResult GetPublisherInfoByName(string name)
         {
             try
@@ -65,11 +73,13 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
+
+        //Get a publisher by company name 
         [HttpGet]
-        [Route("publisher/{companyName}")]
+        [Route("get/companyname/{companyName}")]
         public IHttpActionResult GetPublisherInfoByCompanyName(string companyName)
         {
             try
@@ -81,17 +91,19 @@ namespace EventPublisherAPI.Controllers
             {
                 return new System.Web.Http.Results.ResponseMessageResult(
                             Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.Message)));
+                                new HttpError(e.InnerException.InnerException.Message)));
             }
         }
 
+
+        //Add new publisher
         [HttpPost]
-        [Route("publisher/post")]
-        public IHttpActionResult PostNewPublisher(int id, string name, string companyName, string email, int idCity, string phoneNumber, string idUser)
+        [Route("post")]
+        public IHttpActionResult PostNewPublisher(Publisher publisher1)
         {
             try
             {
-                _evService.CreatePublisher(id, name, companyName, email, idCity, phoneNumber, idUser);
+                _evService.CreatePublisher(publisher1);
                 return Ok();
             }
             catch (Exception e)
@@ -102,5 +114,42 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+
+        //Edit publisher info
+        [HttpPut]
+        [Route("update/{id:int}")]
+        public IHttpActionResult UpdatePublisher(int id, Publisher publisher1)
+        {
+            try
+            {
+                _evService.UpdatePublisher(id, publisher1);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return new System.Web.Http.Results.ResponseMessageResult(
+                            Request.CreateErrorResponse((HttpStatusCode)500,
+                                new HttpError(e.InnerException.InnerException.Message)));
+            }
+        }
+
+
+        //Delele a publisher
+        [HttpDelete]
+        [Route("delete/{id:int}")]
+        public IHttpActionResult DeletePublisher(int id)
+        {
+            try
+            {
+                _evService.DeletePublisher(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return new System.Web.Http.Results.ResponseMessageResult(
+                            Request.CreateErrorResponse((HttpStatusCode)500,
+                                new HttpError(e.InnerException.InnerException.Message)));
+            }
+        }
     }
 }
