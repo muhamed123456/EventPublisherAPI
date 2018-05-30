@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using EventPublisherBLL;
+using EventPublisherEF.Contracts;
+using EventPublisherEF;
 
 namespace EventPublisherAPI.Controllers
 {
@@ -18,6 +20,8 @@ namespace EventPublisherAPI.Controllers
         {
 
         }
+
+        //Get all publishers
         [HttpGet]
         [Route("get")]
 
@@ -35,6 +39,8 @@ namespace EventPublisherAPI.Controllers
                                 new HttpError(e.InnerException.InnerException.Message)));
             }
         }
+
+        //Get a publisher by ID
         [HttpGet]
         [Route("get/{id:int}")]
         public IHttpActionResult GetPublisherInfoByID(int id)
@@ -52,6 +58,8 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+
+        //Get a publisher by name
         [HttpGet]
         [Route("get/name/{name}")]
         public IHttpActionResult GetPublisherInfoByName(string name)
@@ -68,6 +76,8 @@ namespace EventPublisherAPI.Controllers
                                 new HttpError(e.InnerException.InnerException.Message)));
             }
         }
+
+        //Get a publisher by company name 
         [HttpGet]
         [Route("get/companyname/{companyName}")]
         public IHttpActionResult GetPublisherInfoByCompanyName(string companyName)
@@ -85,13 +95,15 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+
+        //Add new publisher
         [HttpPost]
         [Route("post")]
-        public IHttpActionResult PostNewPublisher(string name, string companyName, string email, int idCity, string phoneNumber, int idUser)
+        public IHttpActionResult PostNewPublisher(Publisher publisher1)
         {
             try
             {
-                _evService.CreatePublisher(name, companyName, email, idCity.ToString(), phoneNumber, idUser);
+                _evService.CreatePublisher(publisher1);
                 return Ok();
             }
             catch (Exception e)
@@ -102,13 +114,15 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+
+        //Edit publisher info
         [HttpPut]
-        [Route("update")]
-        public IHttpActionResult UpdatePublisher(int id, string name, string companyName, string email, int idCity, string phoneNumber, int idUser)
+        [Route("update/{id:int}")]
+        public IHttpActionResult UpdatePublisher(int id, Publisher publisher1)
         {
             try
             {
-                _evService.UpdatePublisher(id, name, companyName, email, idCity.ToString(), phoneNumber, idUser);
+                _evService.UpdatePublisher(id, publisher1);
                 return Ok();
             }
             catch (Exception e)
@@ -119,8 +133,10 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+
+        //Delele a publisher
         [HttpDelete]
-        [Route("delete/{id}")]
+        [Route("delete/{id:int}")]
         public IHttpActionResult DeletePublisher(int id)
         {
             try

@@ -29,22 +29,28 @@ namespace EventPublisherBLL
             return _ev.GetEventInfoById(id);
         }
     
-        //get events by name
-        public List<SearchedEvents> GetEventsByName(string name)
+        //get events by city
+        public List<SearchedEvents> GetEventsByCity(string city)
         {
-            return _ev.GetEventInfoByName(name);
+            return _ev.GetEventInfoByCity(city);
+        }
+
+        //get events by type
+        public List<SearchedEvents> GetEventsByType(string type)
+        {
+            return _ev.GetEventInfoByType(type);
         }
 
         //create new event
-        public void CreateEvent(string name, string description, string cityName, string placeName, string type, System.DateTime startDate, System.DateTime endDate, bool approved)
+        public void CreateEvent(Event event1)
         {
-            _ev.CreateEvent(name, description, cityName, placeName, type, startDate, endDate, approved);
+            _ev.CreateEvent(event1);
         }
 
         //update event info
-        public void UpdateEvent(int id, string name, string description, string cityName, string placeName, string type, System.DateTime startDate, System.DateTime endDate, bool approved)
+        public void UpdateEvent(int id, Event event1)
         {
-            _ev.UpdateEvent( id, name, description, cityName, placeName, type, startDate, endDate, approved);
+            _ev.UpdateEvent( id, event1);
         }
 
         //delete event

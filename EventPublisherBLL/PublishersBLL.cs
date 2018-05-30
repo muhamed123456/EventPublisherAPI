@@ -38,9 +38,9 @@ namespace EventPublisherBLL
             return _ev.GetPublisherInfoByCompanyName(companyName);
         }
         //Insert
-        public void CreatePublisher(string name, string companyName, string email, string cityName, string phoneNumber, int idUser)
+        public void CreatePublisher(Publisher publisher1)
         {
-            _ev.CreatePublisher(name, companyName,  email, cityName, phoneNumber, idUser);
+            _ev.CreatePublisher(publisher1);
         }
         //Delete(ID)
         public void DeletePublisher(int id)
@@ -48,19 +48,9 @@ namespace EventPublisherBLL
             _ev.DeletePublisher(id);
         }
         //Update(ID)
-        public void UpdatePublisher(int id, string name, string companyName, string email, string cityName, string phoneNumber, int idUser)
+        public void UpdatePublisher(int id, Publisher publisher1)
         {
-            _ev.UpdatePublisher( id,  name,  companyName,  email, cityName,  phoneNumber, idUser);
-        }
-        // InsertUsers
-        public void CreateUser(User user)
-        {
-            _ev.AddUser(user);
-        }
-        // InsertRoles
-        public void CreateRoles(string Role)
-        {
-            _ev.AddRole(Role);
+            _ev.UpdatePublisher(id, publisher1);
         }
     }
 }

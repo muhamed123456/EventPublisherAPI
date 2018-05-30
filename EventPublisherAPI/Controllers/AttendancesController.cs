@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using EventPublisherBLL;
+using EventPublisherEF.Contracts;
+using EventPublisherEF;
 
 namespace EventPublisherAPI.Controllers
 {
@@ -20,9 +22,10 @@ namespace EventPublisherAPI.Controllers
 
         }
 
+
+        //Get Attendances info
         [HttpGet]
         [Route("get")]
-
         public IHttpActionResult GetAttendanceInfo()
         {
             try
@@ -38,9 +41,10 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("get/{id=int}")]
 
+        //Get Attendance info by ID
+        [HttpGet]
+        [Route("get/{id:int}")]
         public IHttpActionResult GetAttendanceInfoById(int id)
         {
             try

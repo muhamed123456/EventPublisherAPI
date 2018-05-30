@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using EventPublisherBLL;
+using EventPublisherEF.Contracts;
+using EventPublisherEF;
 
 namespace EventPublisherAPI.Controllers
 {
@@ -18,6 +20,8 @@ namespace EventPublisherAPI.Controllers
 
         }
 
+
+        //Get all places
         [HttpGet]
         [Route("get")]
         public IHttpActionResult GetPlaceInfo()
@@ -34,9 +38,11 @@ namespace EventPublisherAPI.Controllers
                                 new HttpError(e.InnerException.InnerException.Message)));
             }
         }
+        
 
+        //Get a place by ID
         [HttpGet]
-        [Route("get/{id}")]
+        [Route("get/{id:int}")]
         public IHttpActionResult GetPlacesByID(int id)
         {
             try
@@ -52,13 +58,15 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+
+        //Add new place
         [HttpPost]
         [Route("post")]
-        public IHttpActionResult PostNewPlace(string placeName, string cityName)
+        public IHttpActionResult PostNewPlace(Place place1)
         {
             try
             {
-                _evService.AddPlace(placeName, cityName);
+                _evService.AddPlace(place1);
                 return Ok();
             }
             catch (Exception e)

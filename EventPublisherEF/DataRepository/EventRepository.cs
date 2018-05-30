@@ -24,52 +24,40 @@ namespace EventPublisherEF.DataRepository
             return _dbContext.Events.Where(e => e.Approved == true).Select(e => new SearchedEvents
             {
                 ID = e.ID,
-                Name =e.Name,
+                Name = e.Name,
                 Description = e.Description,
                 City = e.City.Name,
                 Place = e.Place.PlaceName,
                 Type = e.Type.Type1,
-                StartEvent =e.StartEvent,
-                EndEvent =e.EndEvent})
+                StartEvent = e.StartEvent,
+                EndEvent = e.EndEvent
+            })
             .ToList();
         }
 
-        
+
         //Create Event
-        public void CreateEvent(string name, string description, string cityName, string placeName, string type, System.DateTime startDate, System.DateTime endDate, bool approved)
+        public void CreateEvent(Event event1)
         {
-            Event event1 = new Event();
-            event1.Name = name;
-            event1.Description = description;
-            int idCity = _dbContext.Cities.Where(c => c.Name == cityName).Select(c => c.ID).First();
-            event1.ID_City = idCity;
-            int idPlace = _dbContext.Places.Where(p => p.PlaceName == placeName).Select(p => p.ID).First(); 
-            event1.ID_Place = idPlace;
-            int idType = _dbContext.Types.Where(t => t.Type1 == type).Select(t => t.ID).First();
-            event1.ID_Type = idType;
-            event1.StartEvent = startDate;
-            event1.EndEvent = endDate;
-            event1.Approved = approved;
+            event1.ID = 0;
 
             _dbContext.Events.Add(event1);
             _dbContext.SaveChanges();
         }
 
         //Edit an Event
-        public void UpdateEvent(int id, string name, string description, string cityName, string placeName, string type, System.DateTime startDate, System.DateTime endDate, bool approved)
+        public void UpdateEvent(int id, Event event1)
         {
             var event2 = _dbContext.Events.First(e => e.Approved && e.ID == id);
-            event2.Name = name;
-            int idCity = _dbContext.Cities.Where(c => c.Name == cityName).Select(c => c.ID).First();
-            event2.ID_City = idCity;
-            int idType = _dbContext.Types.Where(t => t.Type1 == type).Select(t => t.ID).First();
-            event2.ID_Type = idType;
-            int idPlace = _dbContext.Places.Where(p => p.PlaceName == placeName).Select(p => p.ID).First();
-            event2.ID_Place = idPlace;
-            event2.Description = description;
-            event2.StartEvent = startDate;
-            event2.EndEvent = endDate;
-            event2.Approved = approved;
+            event2.ID = id;
+            event2.Name = event1.Name;
+            event2.ID_City = event1.ID_City;
+            event2.ID_Type = event1.ID_Type;
+            event2.ID_Place = event1.ID_Place;
+            event2.Description = event1.Description;
+            event2.StartEvent = event1.StartEvent;
+            event2.EndEvent = event1.EndEvent;
+            event2.Approved = event1.Approved;
 
             _dbContext.SaveChanges();
         }
@@ -78,21 +66,7 @@ namespace EventPublisherEF.DataRepository
         //Search for Event by ID
         public List<SearchedEvents> GetEventInfoById(int id)
         {
-            return _dbContext.Events.Where(e => e.ID == id && e.Approved==true).Select(e => new SearchedEvents{
-                ID = e.ID, Name = e.Name,
-                Description = e.Description,
-                City = e.City.Name,
-                Place = e.Place.PlaceName,
-                Type = e.Type.Type1,
-                StartEvent = e.StartEvent,
-                EndEvent = e.EndEvent }).ToList();
-        }
-
-
-        //Search for Event by Name
-        public List<SearchedEvents> GetEventInfoByName(string name)
-        {
-            return _dbContext.Events.Where(e => e.Name == name && e.Approved==true).Select(e => new SearchedEvents
+            return _dbContext.Events.Where(e => e.ID == id && e.Approved == true).Select(e => new SearchedEvents
             {
                 ID = e.ID,
                 Name = e.Name,
@@ -105,6 +79,38 @@ namespace EventPublisherEF.DataRepository
             }).ToList();
         }
 
+
+        //Search for Event by City
+        public List<SearchedEvents> GetEventInfoByCity(string city)
+        {
+            return _dbContext.Events.Where(e => e.City.Name == city && e.Approved == true).Select(e => new SearchedEvents
+            {
+                ID = e.ID,
+                Name = e.Name,
+                Description = e.Description,
+                City = e.City.Name,
+                Place = e.Place.PlaceName,
+                Type = e.Type.Type1,
+                StartEvent = e.StartEvent,
+                EndEvent = e.EndEvent
+            }).ToList();
+        }
+
+        //Search for Event by Type
+        public List<SearchedEvents> GetEventInfoByType(string type)
+        {
+            return _dbContext.Events.Where(e => e.Type.Type1 == type && e.Approved == true).Select(e => new SearchedEvents
+            {
+                ID = e.ID,
+                Name = e.Name,
+                Description = e.Description,
+                City = e.City.Name,
+                Place = e.Place.PlaceName,
+                Type = e.Type.Type1,
+                StartEvent = e.StartEvent,
+                EndEvent = e.EndEvent
+            }).ToList();
+        }
 
         //Delete an existing Event
         public void DeleteEvent(int id)
@@ -122,7 +128,7 @@ namespace EventPublisherEF.DataRepository
         //Get all Cities
         public List<CitiesInfo> GetCityInfo()
         {
-            return _dbContext.Cities.Select(c => new CitiesInfo {ID = c.ID, Name=c.Name }).ToList();
+            return _dbContext.Cities.Select(c => new CitiesInfo { ID = c.ID, Name = c.Name }).ToList();
         }
 
 
@@ -133,10 +139,9 @@ namespace EventPublisherEF.DataRepository
         }
 
         //Add a new City
-        public void AddCity(string Name)
+        public void AddCity(City city1)
         {
-            City city1 = new City();
-            city1.Name = Name;
+            city1.ID = 0;
             _dbContext.Cities.Add(city1);
             _dbContext.SaveChanges();
         }
@@ -165,7 +170,7 @@ namespace EventPublisherEF.DataRepository
                 PlaceName = p.PlaceName
             }).ToList();
         }
-        
+
 
         //Search for Place by ID
         public List<PlacesInfo> GetPlaceInfoById(int id)
@@ -179,13 +184,9 @@ namespace EventPublisherEF.DataRepository
         }
 
         //Add a place
-        public void AddPlace(string placeName, string CityName)
+        public void AddPlace(Place place1)
         {
-            Place place1 = new Place();
-            
-            place1.PlaceName = placeName;
-            int idCity = _dbContext.Cities.Where(c => c.Name == CityName).Select(c => c.ID).First();
-            place1.ID_City = idCity;
+            place1.ID = 0;
 
             _dbContext.Places.Add(place1);
             _dbContext.SaveChanges();
@@ -217,42 +218,32 @@ namespace EventPublisherEF.DataRepository
                 ID = p.ID,
                 Name = p.Name,
                 CompanyName = p.CompanyName,
-                Email =p.Email,
+                Email = p.Email,
                 City = p.City.Name
             }).ToList();
         }
 
         //create publisher
-        public void CreatePublisher(string name, string companyName, string email, string cityName, string phoneNumber, int idUser)
+        public void CreatePublisher(Publisher publisher1)
         {
-            Publisher pub = new Publisher();
+            publisher1.ID = 0;
 
-            pub.Name = name;
-            pub.CompanyName = companyName;
-            pub.Email = email;
-            int idCity = _dbContext.Cities.Where(c => c.Name == cityName).Select(c => c.ID).First();
-            pub.ID_City = idCity;
-            pub.PhoneNumber = phoneNumber;
-            pub.ID_User = idUser;
-
-            _dbContext.Publishers.Add(pub);
+            _dbContext.Publishers.Add(publisher1);
             _dbContext.SaveChanges();
         }
 
         //edit publisher's info
-        public void UpdatePublisher(int id, string name, string companyName, string email, string cityName, string phoneNumber, int idUser)
+        public void UpdatePublisher(int id, Publisher publisher1)
         {
             var pub1 = _dbContext.Publishers.First(p => p.ID == id);
 
-            pub1.Name = name;
-            pub1.CompanyName = companyName;
-            int idCity = _dbContext.Cities.Where(c => c.Name == cityName).Select(c => c.ID).First();
-            pub1.ID_City = idCity;
-            pub1.Email = email;
-            pub1.PhoneNumber = phoneNumber;
-            pub1.ID_User = idUser;
+            pub1.Name = publisher1.Name;
+            pub1.CompanyName = publisher1.CompanyName;
+            pub1.ID_City = publisher1.ID_City;
+            pub1.Email = publisher1.Email;
+            pub1.PhoneNumber = publisher1.PhoneNumber;
+            pub1.ID_User = publisher1.ID_User;
 
-            
             _dbContext.SaveChanges();
         }
 
@@ -335,11 +326,11 @@ namespace EventPublisherEF.DataRepository
 
 
         //Add new type
-        public void AddType(string type)
+        public void AddType(Type type1)
         {
-            Type type2 = new Type();
-            type2.Type1 = type;
-            _dbContext.Types.Add(type2);
+            type1.ID = 0;
+
+            _dbContext.Types.Add(type1);
             _dbContext.SaveChanges();
         }
 
@@ -372,7 +363,7 @@ namespace EventPublisherEF.DataRepository
         public List<AttendancesInfo> GetAttendanceInfoById(int id)
         {
             {
-                return _dbContext.Attendances.Where(a => a.ID==id).Select(a => new AttendancesInfo
+                return _dbContext.Attendances.Where(a => a.ID == id).Select(a => new AttendancesInfo
                 {
                     ID = a.ID,
                     attendance = a.Attendance1,
@@ -386,24 +377,12 @@ namespace EventPublisherEF.DataRepository
         //------------------USERS------------------------------------------
 
         //Get All Users
-                
         public List<UsersInfo> GetUserInfo()
         {
             return _dbContext.Users.Select(u => new UsersInfo
             {
                 ID = u.ID,
                 Username = u.Username,
-                Password = u.Password,
-                Role = u.Role.Role1
-            }).ToList();
-        }
-
-        public List<UsersAndRoles> GetUserAndRoles()
-        {
-            return _dbContext.Users.Select(u => new UsersAndRoles
-            {
-                UserID = u.ID,
-                UserName = u.Username,
                 Password = u.Password,
                 Role = u.Role.Role1
             }).ToList();
@@ -423,13 +402,11 @@ namespace EventPublisherEF.DataRepository
         }
 
         //Add a new user
-        public void AddUser(User user)
+        public void AddUser(User user1)
         {
-            User user2 = user;
-            user2.Username = user.Username;
-            user2.Password = user.Password;
-            user2.RoleID = user.RoleID;
-            _dbContext.Users.Add(user2);
+            user1.ID = 0;
+
+            _dbContext.Users.Add(user1);
             _dbContext.SaveChanges();
         }
 
@@ -463,11 +440,11 @@ namespace EventPublisherEF.DataRepository
             }).ToList();
         }
 
-        public void AddRole(string Role)
+        public void AddRole(Role role1)
         {
-            Role role2 = new Role();
-            role2.Role1 = Role;
-            _dbContext.Roles.Add(role2);
+            role1.ID = 0;
+
+            _dbContext.Roles.Add(role1);
             _dbContext.SaveChanges();
         }
 
@@ -476,6 +453,7 @@ namespace EventPublisherEF.DataRepository
             _dbContext.Roles.Remove(_dbContext.Roles.First(r => r.ID == id));
             _dbContext.SaveChanges();
         }
-        
+
+
     }
 }

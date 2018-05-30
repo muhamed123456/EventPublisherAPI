@@ -12,12 +12,6 @@ namespace EventPublisherBLL
     public class UsersBLL
     {
         EventRepository _ev;
-
-        public UsersAndRoles GetUserAndRoles(string username, string password)
-        {
-            return _ev.GetUserAndRoles().ToList().FirstOrDefault(x => x.UserName == username && x.Password == password);
-        }
-
         public UsersBLL(EventRepository eventRepo)
         {
             _ev = eventRepo;
@@ -33,10 +27,9 @@ namespace EventPublisherBLL
             return _ev.GetUserInfoById(id);
         }
 
-        public void AddUser(User user)
+        public void AddUser(User user1)
         {
-            user.Password = Crypto.CreateMD5(user.Password);
-            _ev.AddUser(user);
+            _ev.AddUser(user1);
         }
 
         public void DeleteUser(int id)

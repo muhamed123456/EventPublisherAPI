@@ -21,9 +21,9 @@ namespace EventPublisherAPI.Controllers
 
     }
 
+    //Get all events
     [HttpGet]
     [Route("get")]
-
     public IHttpActionResult GetEventInfo()
     {
         try
@@ -39,6 +39,7 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+        //Get event by ID
         [HttpGet]
         [Route("get/{id:int}")]
         public IHttpActionResult GetEventInfoById(int id)
@@ -56,13 +57,15 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+
+        //Search Events by City
         [HttpGet]
-        [Route("event/{name}")]
-        public IHttpActionResult GetEventInfoByName(string name)
+        [Route("event/city/{city}")]
+        public IHttpActionResult GetEventInfoByCity(string city)
         {
             try
             {
-                var result = _evService.GetEventsByName(name);
+                var result = _evService.GetEventsByCity(city);
                 return Ok(result);
             }
             catch (Exception e)
@@ -73,13 +76,33 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
-        [HttpPut]
-        [Route("put/{id}")]
-        public IHttpActionResult EditEvent(int id, string name, string description, string cityName, string placeName, string type, System.DateTime startDate, System.DateTime endDate, bool approved)
+
+        //Search Events by Type
+        [HttpGet]
+        [Route("event/type/{type}")]
+        public IHttpActionResult GetEventInfoByType(string type)
         {
             try
             {
-                _evService.UpdateEvent( id, name, description, cityName, placeName, type, startDate, endDate, approved);
+                var result = _evService.GetEventsByType(type);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return new System.Web.Http.Results.ResponseMessageResult(
+                            Request.CreateErrorResponse((HttpStatusCode)500,
+                                new HttpError(e.InnerException.InnerException.Message)));
+            }
+        }
+
+        //Add new Event
+        [HttpPost]
+        [Route("post")]
+        public IHttpActionResult PostNewEvent(Event event1)
+        {
+            try
+            {
+                _evService.CreateEvent(event1);
                 return Ok();
             }
             catch (Exception e)
@@ -90,8 +113,29 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+
+        //Edit an Event
+        [HttpPut]
+        [Route("put/{id:int}")]
+        public IHttpActionResult EditEvent(int id, Event event1)
+        {
+            try
+            {
+                _evService.UpdateEvent( id, event1);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return new System.Web.Http.Results.ResponseMessageResult(
+                            Request.CreateErrorResponse((HttpStatusCode)500,
+                                new HttpError(e.InnerException.InnerException.Message)));
+            }
+        }
+
+
+        //Delete an Event
         [HttpDelete]
-        [Route("delete/{id}")]
+        [Route("delete/{id:int}")]
         public IHttpActionResult DeleteEvent(int id)
         {
             try
@@ -106,25 +150,5 @@ namespace EventPublisherAPI.Controllers
                                 new HttpError(e.InnerException.InnerException.Message)));
             }
         }
-
-        [HttpPost]
-        [Route("post")]
-        public IHttpActionResult PostNewEvent(string name, string description, string cityName, string placeName, string type, System.DateTime startDate, System.DateTime endDate, bool approved)
-        {
-            try
-            {
-                _evService.CreateEvent(name, description, cityName, placeName, type, startDate, endDate, approved);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return new System.Web.Http.Results.ResponseMessageResult(
-                            Request.CreateErrorResponse((HttpStatusCode)500,
-                                new HttpError(e.InnerException.InnerException.Message)));
-            }
-        }
-
-
-
     }
 }

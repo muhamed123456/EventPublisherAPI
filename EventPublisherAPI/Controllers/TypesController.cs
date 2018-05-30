@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using EventPublisherBLL;
+using EventPublisherEF.Contracts;
+using EventPublisherEF;
 
 namespace EventPublisherAPI.Controllers
 {
@@ -19,6 +21,8 @@ namespace EventPublisherAPI.Controllers
 
         }
 
+
+        //Get all types
         [HttpGet]
         [Route("get")]
 
@@ -37,6 +41,8 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+
+        //Get a type by ID
         [HttpGet]
         [Route("get/{id:int}")]
 
@@ -56,13 +62,14 @@ namespace EventPublisherAPI.Controllers
         }
 
 
+        //Add new type
         [HttpPost]
         [Route("post")]
-        public IHttpActionResult PostNewType(string type)
+        public IHttpActionResult PostNewType(EventPublisherEF.Type type1)
         {
             try
             {
-                _evService.AddType(type);
+                _evService.AddType(type1);
                 return Ok();
             }
             catch (Exception e)

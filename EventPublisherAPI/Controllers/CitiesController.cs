@@ -21,6 +21,8 @@ namespace EventPublisherAPI.Controllers
 
         }
 
+
+        //Get all cities
         [HttpGet]
         [Route("get")]
         public IHttpActionResult GetCityInfo()
@@ -38,8 +40,10 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+
+        //Get a city by ID
         [HttpGet]
-        [Route("get/{id}")]
+        [Route("get/{id:int}")]
         public IHttpActionResult GetCityInfoByID(int id)
         {
             try
@@ -55,13 +59,15 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+
+        //Add new city
         [HttpPost]
         [Route("post")]
-        public IHttpActionResult PostNewCity(string Name)
+        public IHttpActionResult PostNewCity(City city1)
         {
             try
             {
-                _evService.AddCity(Name);
+                _evService.AddCity(city1);
                 return Ok();
             }
             catch (Exception e)
@@ -72,8 +78,10 @@ namespace EventPublisherAPI.Controllers
             }
         }
 
+
+        //Delete a city
         [HttpDelete]
-        [Route("delete/{id}")]
+        [Route("delete/{id:int}")]
         public IHttpActionResult DeleteCity(int id)
         {
             try
