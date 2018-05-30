@@ -91,7 +91,7 @@ namespace EventPublisherAPI.Controllers
         {
             try
             {
-                _evService.CreatePublisher(name, companyName, email, idCity, phoneNumber, idUser);
+                _evService.CreatePublisher(name, companyName, email, idCity.ToString(), phoneNumber, idUser);
                 return Ok();
             }
             catch (Exception e)
@@ -108,7 +108,7 @@ namespace EventPublisherAPI.Controllers
         {
             try
             {
-                _evService.UpdatePublisher(id, name, companyName, email, idCity, phoneNumber, idUser);
+                _evService.UpdatePublisher(id, name, companyName, email, idCity.ToString(), phoneNumber, idUser);
                 return Ok();
             }
             catch (Exception e)

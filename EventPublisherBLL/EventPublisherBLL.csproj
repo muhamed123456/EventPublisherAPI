@@ -39,6 +39,10 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http">
+      <HintPath>C:\Users\kristina.razmoska\source\repos\TestApplication1\packages\Microsoft.AspNet.WebApi.Core.5.2.5\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,6 +53,8 @@
   <ItemGroup>
     <Compile Include="AttendancesBLL.cs" />
     <Compile Include="CitiesBLL.cs" />
+    <Compile Include="Crypto.cs" />
+    <Compile Include="CustomAuthorize.cs" />
     <Compile Include="EventsBLL.cs" />
     <Compile Include="PlacesBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

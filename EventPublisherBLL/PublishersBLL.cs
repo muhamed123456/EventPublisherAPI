@@ -52,5 +52,15 @@ namespace EventPublisherBLL
         {
             _ev.UpdatePublisher( id,  name,  companyName,  email, cityName,  phoneNumber, idUser);
         }
+        // InsertUsers
+        public void CreateUser(User user)
+        {
+            _ev.AddUser(user);
+        }
+        // InsertRoles
+        public void CreateRoles(string Role)
+        {
+            _ev.AddRole(Role);
+        }
     }
 }

@@ -385,13 +385,25 @@ namespace EventPublisherEF.DataRepository
         //-----------------------------------------------------------------
         //------------------USERS------------------------------------------
 
-            //Get All Users
+        //Get All Users
+                
         public List<UsersInfo> GetUserInfo()
         {
             return _dbContext.Users.Select(u => new UsersInfo
             {
                 ID = u.ID,
                 Username = u.Username,
+                Password = u.Password,
+                Role = u.Role.Role1
+            }).ToList();
+        }
+
+        public List<UsersAndRoles> GetUserAndRoles()
+        {
+            return _dbContext.Users.Select(u => new UsersAndRoles
+            {
+                UserID = u.ID,
+                UserName = u.Username,
                 Password = u.Password,
                 Role = u.Role.Role1
             }).ToList();
@@ -411,13 +423,12 @@ namespace EventPublisherEF.DataRepository
         }
 
         //Add a new user
-        public void AddUser(string userName, string passWord, string RoleName)
+        public void AddUser(User user)
         {
-            User user2 = new User();
-            user2.Username = userName;
-            user2.Password = passWord;
-            int ID_Role = _dbContext.Roles.Where(r => r.Role1 == RoleName).Select(r => r.ID).First();
-            user2.RoleID = ID_Role;
+            User user2 = user;
+            user2.Username = user.Username;
+            user2.Password = user.Password;
+            user2.RoleID = user.RoleID;
             _dbContext.Users.Add(user2);
             _dbContext.SaveChanges();
         }
@@ -465,7 +476,6 @@ namespace EventPublisherEF.DataRepository
             _dbContext.Roles.Remove(_dbContext.Roles.First(r => r.ID == id));
             _dbContext.SaveChanges();
         }
-
-
+        
     }
 }

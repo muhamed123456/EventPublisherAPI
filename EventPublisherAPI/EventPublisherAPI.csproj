@@ -204,6 +204,7 @@
     <Compile Include="Controllers\PlacesController.cs" />
     <Compile Include="Controllers\PublishersController.cs" />
     <Compile Include="Controllers\TypesController.cs" />
+    <Compile Include="Controllers\UsersAndRolesController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

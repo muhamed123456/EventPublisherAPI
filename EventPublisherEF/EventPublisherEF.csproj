@@ -62,7 +62,9 @@
     <Compile Include="Contracts\RolesInfo.cs" />
     <Compile Include="Contracts\SearchedEvents.cs" />
     <Compile Include="Contracts\TypesInfo.cs" />
+    <Compile Include="Contracts\UsersAndRoles.cs" />
     <Compile Include="Contracts\UsersInfo.cs" />
+    <Compile Include="Contracts\UserToken.cs" />
     <Compile Include="DataAccess\DbAccess.cs" />
     <Compile Include="DataAccess\IDbAccess.cs" />
     <Compile Include="DataRepository\EventRepository.cs" />
