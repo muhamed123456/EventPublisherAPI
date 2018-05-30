@@ -17,6 +17,11 @@ namespace EventPublisherBLL
             _ev = eventRepo;
         }
 
+        public UsersAndRoles GetUserAndRoles(string username, string password)
+        {
+            return _ev.GetUserAndRoles().ToList().FirstOrDefault(x => x.UserName == username && x.Password == password);
+        }
+
         public List<UsersInfo> GetUserInfo()
         {
             return _ev.GetUserInfo();

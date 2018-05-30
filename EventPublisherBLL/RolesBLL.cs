@@ -28,7 +28,7 @@ namespace EventPublisherBLL
             return _ev.GetRolesInfoByID(id);
         }
 
-        public void AddRole(Role role1)
+        public void AddRole(string role1)
         {
             _ev.AddRole(role1);
         }

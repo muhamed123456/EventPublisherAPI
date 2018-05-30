@@ -51,11 +51,6 @@ namespace EventPublisherBLL
            
         }
 
-        public void Challenge(System.Web.Http.Controllers.HttpActionContext actionContext)
-        {
-            var host = actionContext.Request.RequestUri.DnsSafeHost;
-            actionContext.Response.StatusCode = HttpStatusCode.Unauthorized;
-            actionContext.Response.Headers.Add("WWW-Authenticate", string.Format("Basic realm=\"{0}\"", host));
-        }
+       
     }
 }
